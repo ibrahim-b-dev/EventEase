@@ -1,0 +1,41 @@
+{
+  "name": "eventease",
+  "version": "1.0.0",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "start": "concurrently \"npm start --prefix backend\" \"npm start --prefix frontend\"",
+    "install-all": "npm install --workspaces"
+  },
+  "author": "ibrahim-b-dev",
+  "license": "MIT",
+  "description": "EventEase: A comprehensive event management system enabling seamless event creation, attendee management, and RSVP tracking with advanced filtering and role-based access control.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ibrahim-b-dev/EventEase"
+  },
+  "keywords": [
+    "event-management",
+    "eventease",
+    "RSVP",
+    "event-planning",
+    "event-scheduling",
+    "user-authentication",
+    "CRUD",
+    "REST-API",
+    "GraphQL",
+    "role-based-access-control",
+    "RBAC",
+    "backend",
+    "frontend",
+    "full-stack",
+    "MongoDB",
+    "PostgreSQL",
+    "Node.js",
+    "Express.js",
+    "React",
+    "event-filtering"
+  ]
+}
