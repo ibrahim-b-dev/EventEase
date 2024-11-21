@@ -5,7 +5,7 @@ const { signToken } = require("../utils/tokenUtils")
 
 authRouter.post("/register", async (req, res) => {
   try {
-    const { name, email, password, role } = req.body
+    const { name, email, password, roles } = req.body
 
     if (!name || !email || !password) {
       return res
@@ -18,12 +18,12 @@ authRouter.post("/register", async (req, res) => {
       return res.status(400).json({ error: "Email already in use" })
     }
 
-    const userRole = role || "Attendee"
+    const userRoles = roles || "User"
     const hashedPassword = await hashPassword(password)
 
-    const newUser = new User({ name, email, password: hashedPassword, role: userRole })
+    const newUser = new User({ name, email, password: hashedPassword, roles: userRoles })
     await newUser.save()
-
+    
     res
       .status(201)
       .json({ message: "User registered successfully", id: newUser._id })
@@ -55,9 +55,6 @@ authRouter.post("/login", async (req, res) => {
 
     res.status(200).json({ message: "Login successful", token })
   } catch (error) {
-    // res.status(500).json({ error: "Login failed" })
-    console.log(error);
-    
     res.status(500).json({ error: "Login failed" })
   }
 })
