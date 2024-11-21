@@ -1,7 +1,7 @@
 const authRouter = require("express").Router()
 const User = require("../models/user")
 const { hashPassword, verifyPassword } = require("../utils/passwordUtils")
-const { sign } = require("../utils/tokenUtils")
+const { signToken } = require("../utils/tokenUtils")
 
 authRouter.post("/register", async (req, res) => {
   try {
@@ -51,10 +51,13 @@ authRouter.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Invalid email or password" })
     }
 
-    const token = sign({ id: user._id, email: user.email })
+    const token = signToken({ id: user._id, email: user.email })
 
     res.status(200).json({ message: "Login successful", token })
   } catch (error) {
+    // res.status(500).json({ error: "Login failed" })
+    console.log(error);
+    
     res.status(500).json({ error: "Login failed" })
   }
 })
