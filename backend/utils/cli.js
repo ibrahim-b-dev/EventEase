@@ -15,6 +15,8 @@ const connectDB = async () => {
     serverApi: { version: "1", strict: true, deprecationErrors: true },
   }
 
+  mongoose.set("strictQuery", false)
+
   try {
     await mongoose.connect(URI, clientOptions)
     logger.info("Connected to MongoDB")
