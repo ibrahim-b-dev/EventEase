@@ -7,11 +7,11 @@ const eventSchema = new mongoose.Schema({
   description: { type: String, required: true },
   date: { type: Date, required: true, index: true },
   location: { type: String, required: true },
-  organizerID: { type: String, required: true, ref: 'User', index: true }, // Foreign key reference
+  organizerID: { type: String, required: true, ref: "User", index: true }, // Foreign key reference
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   isActive: { type: Boolean, default: true, index: true },
-});
+})
 
 // Models take schema and apply it to each document in its collection.
 // Models are responsible for all document interactions (CRUD).

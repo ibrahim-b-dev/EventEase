@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
   phone: { type: String },
   isActive: { type: Boolean, default: true, index: true },
-});
+})
 
 // Models take schema and apply it to each document in its collection.
 // Models are responsible for all document interactions (CRUD).

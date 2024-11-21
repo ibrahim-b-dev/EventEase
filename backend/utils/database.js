@@ -3,7 +3,9 @@ const config = require("./config")
 const logger = require("./logger")
 
 const URI = config.MONGODB_URI
-const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+const clientOptions = {
+  serverApi: { version: "1", strict: true, deprecationErrors: true },
+}
 
 mongoose.set("strictQuery", false)
 
