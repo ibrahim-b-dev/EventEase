@@ -2,7 +2,6 @@ const mongoose = require("mongoose")
 
 // A schema defines the structure of collection documents.
 const userSchema = new mongoose.Schema({
-  userID: { type: String, required: true, unique: true, index: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true, index: true },
   password: { type: String, required: true },
@@ -11,6 +10,17 @@ const userSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
   phone: { type: String },
   isActive: { type: Boolean, default: true, index: true },
+})
+
+// converts the mongoose document into a plain JavaScript object.
+// applies when the document's toJSON method is called.
+userSchema.set("toJSON", {
+  transform: (doc, ret) => {
+    ret.id = ret._id.toString()
+    delete ret._id
+    delete ret.__v
+  },
+  flattenObjectIds: true,
 })
 
 // Models take schema and apply it to each document in its collection.
