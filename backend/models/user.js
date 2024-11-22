@@ -1,11 +1,32 @@
 const mongoose = require("mongoose")
 const allowedRoles = require("../utils/allowedRoles")
+const { hashPassword, verifyPassword } = require("../utils/passwordUtils")
 
 // A schema defines the structure of collection documents.
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true, index: true },
-  password: { type: String, required: true },
+  name: {
+    type: String,
+    required: true,
+    minLength: [6, "Name must be at least 6 characters"],
+    maxLength: [25, "Name must at most 25 characters"],
+  },
+  email: {
+    type: String,
+    required: [true, "Email is required"],
+    unique: true,
+    lowercase: true,
+    validate: {
+      validator: (value) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+      },
+      message: () => "Email address is not a valid!",
+    },
+    index: true,
+  },
+  password: {
+    type: String,
+    required: [true, "Password is required"],
+  },
   roles: {
     type: [String],
     required: true,
@@ -23,7 +44,15 @@ const userSchema = new mongoose.Schema({
   },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  phone: { type: String },
+  phone: {
+    type: String,
+    validate: {
+      validator: function (phone) {
+        return /^\+?[1-9]\d{1,14}$/.test(phone)
+      },
+      message: (props) => `${props.value} is not a valid phone number!`,
+    },
+  },
   isActive: { type: Boolean, default: true, index: true },
 })
 
@@ -38,6 +67,23 @@ userSchema.set("toJSON", {
   },
   flattenObjectIds: true,
 })
+
+// Pre-save middleware for hashing the password
+userSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    try {
+      this.password = await hashPassword(this.password)
+    } catch (error) {
+      return next(error)
+    }
+  }
+  next()
+})
+
+// Compare password method for authentication
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return await verifyPassword(candidatePassword, this.password)
+}
 
 // Models take schema and apply it to each document in its collection.
 // Models are responsible for all document interactions (CRUD).
