@@ -1,62 +1,61 @@
 const authRouter = require("express").Router()
 const User = require("../models/user")
-const { hashPassword, verifyPassword } = require("../utils/passwordUtils")
 const { signToken } = require("../utils/tokenUtils")
-const logger = require("../utils/logger")
 
 authRouter.post("/register", async (req, res) => {
-  try {
-    const { name, email, password, roles } = req.body
+  const { name, email, password, roles } = req.body
 
-    if (!name || !email || !password) {
-      return res
-        .status(400)
-        .json({ error: "Name, email, and password are required" })
-    }
-
-    const existingUser = await User.findOne({ email })
-    if (existingUser) {
-      return res.status(400).json({ error: "Email already in use" })
-    }
-
-    const userRoles = roles || "User"
-    const hashedPassword = await hashPassword(password)
-
-    const newUser = new User({ name, email, password: hashedPassword, roles: userRoles })
-    await newUser.save()
-    
-    res
-      .status(201)
-      .json({ message: "User registered successfully", id: newUser._id })
-  } catch (error) {
-    logger.error("Error during registration:", error)
-    res.status(500).json({ error: "An error occurred during registration" })
+  if (!name || !email || !password) {
+    return res
+      .status(400)
+      .json({ error: "Name, email, and password are required" })
   }
+
+  if (password.length < 6) {
+    return res.status(400).json({
+      error: "Password must be at least 6 charactters long",
+    })
+  }
+
+  const existingUser = await User.findOne({ email })
+  if (existingUser) {
+    return res.status(400).json({ error: "Email already in use" })
+  }
+
+  const userRoles = roles || "User"
+
+  const newUser = new User({
+    name,
+    email,
+    password,
+    roles: userRoles,
+  })
+  await newUser.save()
+
+  res
+    .status(201)
+    .json({ message: "User registered successfully", id: newUser._id })
 })
 
 authRouter.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body
+  const { email, password } = req.body
 
-    if (!email || !password) {
-      return res.status(400).json({ error: "Email, and password are required" })
-    }
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email, and password are required" })
+  }
 
-    const user = await User.findOne({ email })
-    if (!user) {
-      return res.status(401).json({ error: "Invalid email or password" })
-    }
+  const user = await User.findOne({ email })
+  if (!user) {
+    return res.status(401).json({ error: "Invalid email or password" })
+  }
 
-    const passwordCorrect = await verifyPassword(password, user.password)
-    if (!passwordCorrect) {
-      return res.status(401).json({ error: "Invalid email or password" })
-    }
+  const isMatch = await user.comparePassword(password)
 
+  if (isMatch) {
     const token = signToken({ id: user._id, email: user.email })
-
-    res.status(200).json({ message: "Login successful", token })
-  } catch (error) {
-    res.status(500).json({ error: "Login failed" })
+    return res.status(200).json({ message: "Login successful", token })
+  } else {
+    return res.status(401).json({ error: "Invalid email or password" })
   }
 })
 

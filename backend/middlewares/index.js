@@ -1,5 +1,6 @@
 const { verifyToken } = require("../utils/tokenUtils")
 const User = require("../models/user")
+const logger = require("../utils/logger")
 
 const validateToken = async (req, res, next) => {
   const authHeader = req.get("authorization")
@@ -43,4 +44,23 @@ const checkRoles = (...allowedRoles) => {
   }
 }
 
-module.exports = { validateToken, checkRoles }
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: "unknow endpoint" })
+}
+
+const errorHandler = (error, req, res, next) => {
+  logger.error(error.messsage)
+
+  switch (error.name) {
+    case "ValidationError":
+      return res.status(400).json({ error: error.message })
+    case "CastError":
+      return res.status(400).json({ error: "Error" })
+    case "MongooseError":
+      return res.status(400).json({ error: "Database Error" })
+    default:
+      return res.status(400).json({ error: error.message })
+  }
+}
+
+module.exports = { validateToken, checkRoles, unknownEndpoint, errorHandler }
