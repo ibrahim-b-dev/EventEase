@@ -5,7 +5,7 @@ const {
   updateEvent,
   deleteEvent,
 } = require("../controllers/eventsController")
-const { validateToken, checkRoles } = require("../middlewares")
+const { checkRoles } = require("../middlewares")
 
 const eventsRouter = require("express").Router()
 

@@ -1,8 +1,7 @@
-const authRouter = require("express").Router()
 const User = require("../models/user")
 const { signToken } = require("../utils/tokenUtils")
 
-authRouter.post("/register", async (req, res) => {
+const register = async (req, res) => {
   const { name, email, password, roles } = req.body
 
   if (!name || !email || !password) {
@@ -35,9 +34,9 @@ authRouter.post("/register", async (req, res) => {
   res
     .status(201)
     .json({ message: "User registered successfully", id: newUser._id })
-})
+}
 
-authRouter.post("/login", async (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body
 
   if (!email || !password) {
@@ -57,6 +56,6 @@ authRouter.post("/login", async (req, res) => {
   } else {
     return res.status(401).json({ error: "Invalid email or password" })
   }
-})
+}
 
-module.exports = authRouter
+module.exports = { register, login }
