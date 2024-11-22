@@ -2,6 +2,7 @@ const authRouter = require("express").Router()
 const User = require("../models/user")
 const { hashPassword, verifyPassword } = require("../utils/passwordUtils")
 const { signToken } = require("../utils/tokenUtils")
+const logger = require("../utils/logger")
 
 authRouter.post("/register", async (req, res) => {
   try {
@@ -28,7 +29,7 @@ authRouter.post("/register", async (req, res) => {
       .status(201)
       .json({ message: "User registered successfully", id: newUser._id })
   } catch (error) {
-    console.error("Error during registration:", error)
+    logger.error("Error during registration:", error)
     res.status(500).json({ error: "An error occurred during registration" })
   }
 })

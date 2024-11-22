@@ -1,5 +1,6 @@
 const usersRouter = require("express").Router()
 const User = require("../models/user")
+const logger = require("../utils/logger")
 
 usersRouter.get("/profile", async (req, res) => {
   try {
@@ -41,10 +42,10 @@ usersRouter.put("/profile", async (req, res) => {
       .status(200)
       .json({ message: "Profile updated successfully", user: updatedUser })
   } catch (error) {
-    console.log(error);
-    
+    logger.error(error);
     res.status(500).json({ error: "Internal server error" })
   }
 })
+
 
 module.exports = usersRouter
