@@ -1,7 +1,7 @@
 const RSVP = require("../models/rsvp")
 
 const createRSVP = async (req, res) => {
-  const { userID, eventID, RSVP_Status } = req.body
+  const { userID, eventID, RSVP_Status, attendeesCount } = req.body
 
   if (!userID || !eventID || !RSVP_Status) {
     return res
@@ -13,6 +13,7 @@ const createRSVP = async (req, res) => {
     userID,
     eventID,
     RSVP_Status,
+    attendeesCount: attendeesCount || 1,
   })
 
   await newRSVP.save()

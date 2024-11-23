@@ -6,17 +6,41 @@ const rsvpSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "User",
+    validate: {
+      validator: async function (value) {
+        const User = mongoose.model("User")
+        const userExists = await User.exists({ _id: value })
+        return userExists
+      },
+      message: "User does not exist",
+    },
   },
   eventID: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "Event",
+    validate: {
+      validator: async function (value) {
+        const Event = mongoose.model("Event")
+        const eventExists = await Event.exists({ _id: value })
+        return eventExists
+      },
+      message: "Event does not exist",
+    },
   },
   RSVP_Status: {
     type: String,
     required: true,
-    enum: ["Yes", "No", "Maybe"],
+    enum: {
+      values: ["Yes", "No", "Maybe"],
+      message: "RSVP status must be 'Yes', 'No', or 'Maybe'",
+    },
     default: "Maybe",
+  },
+  attendeesCount: {
+    type: Number,
+    default: 1,
+    min: [1, "Number of attendees must be at least 1"],
   },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
@@ -31,6 +55,12 @@ rsvpSchema.set("toJSON", {
     delete ret.__v
   },
   flattenObjectIds: true,
+})
+
+// Pre-save middleware to update the `updatedAt` field.
+rsvpSchema.pre("save", function (next) {
+  this.updatedAt = new Date()
+  next()
 })
 
 // Models take schema and apply it to each document in its collection.
