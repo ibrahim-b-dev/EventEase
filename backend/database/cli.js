@@ -2,7 +2,7 @@
 
 const config = require("../utils/config")
 const mongoose = require("mongoose")
-const logger = require("./logger")
+const logger = require("../utils/logger")
 const User = require("../models/user")
 const Event = require("../models/event")
 const RSVP = require("../models/rsvp")
@@ -34,7 +34,7 @@ const runCommand = async () => {
 
   switch (command) {
     case "seed":
-      await require("./seed")()
+      await require("../../utils/seed")()
       break
 
     case "list-users":

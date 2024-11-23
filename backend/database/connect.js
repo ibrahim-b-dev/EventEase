@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
-const config = require("./config")
-const logger = require("./logger")
+const config = require("../utils/config")
+const logger = require("../utils/logger")
 
 const URI = config.LOCAL_MONGODB_URI
 const clientOptions = {

@@ -1,6 +1,6 @@
 const express = require("express")
 require("express-async-errors")
-const connectToDataBase = require("./utils/database")
+const connectToDataBase = require("./database/connect")
 const { validateToken } = require("./middlewares")
 const authRouter = require("./routes/authRoutes")
 const usersRouter = require("./routes/userRoutes")
