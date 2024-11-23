@@ -22,11 +22,20 @@ const createRSVP = async (req, res) => {
 }
 
 const getRSVP = async (req, res) => {
-  const { userId, eventId } = req.query
+  const { userID, eventID } = req.query
+
+  if (!userID && !eventID) {
+    return res.status(400).json({
+      error: "At least one query parameter (userID or eventID) is required",
+    })
+  }
 
   const rsvps = await RSVP.find({
-    $or: [{ userId }, { eventId }],
+    ...(userID && { userID }),
+    ...(eventID && { eventID }),
   })
+    .populate("userID", "name email")
+    .populate("eventID", "title eventDateTime")
 
   if (!rsvp.length) {
     return res.status(404).json({ error: "RSVP not found" })
