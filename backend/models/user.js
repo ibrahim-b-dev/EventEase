@@ -80,6 +80,11 @@ userSchema.pre("save", async function (next) {
   next()
 })
 
+userSchema.pre("save", function (next) {
+  this.updatedAt = new Date()
+  next()
+})
+
 // Compare password method for authentication
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return await verifyPassword(candidatePassword, this.password)
