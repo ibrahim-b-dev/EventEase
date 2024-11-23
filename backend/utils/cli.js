@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
+const config = require("../utils/config")
 const mongoose = require("mongoose")
-const config = require("./config")
 const logger = require("./logger")
 const User = require("../models/user")
 const Event = require("../models/event")
@@ -10,7 +10,8 @@ const RSVP = require("../models/rsvp")
 const args = process.argv.slice(2)
 
 const connectDB = async () => {
-  const URI = config.MONGODB_URI
+  const URI = config.LOCAL_MONGODB_URI
+  // const URI = config.MONGODB_URI
   const clientOptions = {
     serverApi: { version: "1", strict: true, deprecationErrors: true },
   }
@@ -66,12 +67,20 @@ const runCommand = async () => {
       logger.info("All RSVPs deleted")
       break
 
+    case "delete-all":
+      await User.deleteMany({})
+      await Event.deleteMany({})
+      await RSVP.deleteMany({})
+      logger.info("Cleared all data")
+      break
+
     default:
       logger.info(
         "Invalid command. Available commands: seed, list-users, list-events, list-rsvps, delete-users, delete-events, delete-rsvps"
       )
   }
 
+  mongoose.connection.close()
   process.exit()
 }
 

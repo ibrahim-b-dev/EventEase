@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const config = require("./config")
 const logger = require("./logger")
 
-const URI = config.MONGODB_URI
+const URI = config.LOCAL_MONGODB_URI
 const clientOptions = {
   serverApi: { version: "1", strict: true, deprecationErrors: true },
 }
