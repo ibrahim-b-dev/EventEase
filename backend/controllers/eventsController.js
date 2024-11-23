@@ -67,6 +67,26 @@ const getEvent = async (req, res) => {
   res.status(200).json(event)
 }
 
+const getEventRSVPs = async (req, res) => {
+  const { id: eventId } = req.params
+
+  const event = await Event.findById(eventId)
+  if (!event) {
+    return res.status(404).json({ error: "Event not found" })
+  }
+
+  const rsvps = await RSVP.find({ eventID: eventId }).populate(
+    "userID",
+    "name email"
+  )
+
+  res.status(200).json({
+    message: `RSVPs for event: ${event.title}`,
+    eventId,
+    rsvps,
+  })
+}
+
 const updateEvent = async (req, res) => {
   const { id } = req.params
   const userId = req.user.id
@@ -112,4 +132,11 @@ const deleteEvent = async (req, res) => {
   res.status(200).json({ message: "Event deleted successfully", deletedEvent })
 }
 
-module.exports = { addEvent, getAllEvents, getEvent, updateEvent, deleteEvent }
+module.exports = {
+  addEvent,
+  getAllEvents,
+  getEvent,
+  getEventRSVPs,
+  updateEvent,
+  deleteEvent,
+}

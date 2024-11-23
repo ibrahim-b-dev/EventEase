@@ -2,6 +2,7 @@ const {
   addEvent,
   getAllEvents,
   getEvent,
+  getEventRSVPs,
   updateEvent,
   deleteEvent,
 } = require("../controllers/eventsController")
@@ -21,6 +22,12 @@ eventsRouter.get(
   "/:id",
   checkRoles("Organizer", "User"),
   getEvent
+)
+
+eventsRouter.get(
+  "/:id/rsvps",
+  checkRoles("Organizer", "User"),
+  getEventRSVPs
 )
 
 eventsRouter.put("/:id", checkRoles("Organizer"), updateEvent)
