@@ -2,7 +2,7 @@ const User = require("../models/user")
 const { signToken } = require("../utils/tokenUtils")
 
 const register = async (req, res) => {
-  const { name, email, password, roles } = req.body
+  const { name, email, password, phone, roles } = req.body
 
   if (!name || !email || !password) {
     return res
@@ -27,6 +27,7 @@ const register = async (req, res) => {
     name,
     email,
     password,
+    phone,
     roles: userRoles,
   })
   await newUser.save()
