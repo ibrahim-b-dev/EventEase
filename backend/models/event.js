@@ -43,6 +43,7 @@ const eventSchema = new mongoose.Schema(
       },
     },
     isActive: { type: Boolean, default: true, index: true },
+    popularity: { type: Number, default: 0, index: true },
   },
   { timestamps: true }
 )

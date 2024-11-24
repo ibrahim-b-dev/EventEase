@@ -51,9 +51,14 @@ const addEvent = async (req, res) => {
 
 const getAllEvents = async (req, res) => {
   const { startDate, endDate, location } = req.query
+  const { sortBy = "eventDateTime", order = "asc" } = req.query
 
-  console.log(req.query);
-  
+  const validSortAttributes = ["eventDateTime", "popularity"]
+  if (!validSortAttributes.includes(sortBy)) {
+    return res.status(400).json({ error: `Invalid sortBy field: ${sortBy}` })
+  }
+
+  const sortOrder = order === "desc" ? -1 : 1
   const filters = {}
 
   if (startDate || endDate) {
@@ -63,14 +68,15 @@ const getAllEvents = async (req, res) => {
   }
 
   if (location) {
-    filters.location = { $regex: new RegExp(location, "i") };
+    filters.location = { $regex: new RegExp(location, "i") }
   }
 
-  console.log(filters);
-  
   const events = await Event.find(filters)
-    .populate("organizerID", "name email") // Populate organizer details
-    .select("-__v")
+    .populate("organizerID", "name email")
+    // .populate("popularity")
+    .sort({ [sortBy]: sortOrder })
+    .exec()
+
   res.status(200).json(events)
 }
 
