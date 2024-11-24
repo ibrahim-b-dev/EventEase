@@ -50,7 +50,25 @@ const addEvent = async (req, res) => {
 }
 
 const getAllEvents = async (req, res) => {
-  const events = await Event.find()
+  const { startDate, endDate, location } = req.query
+
+  console.log(req.query);
+  
+  const filters = {}
+
+  if (startDate || endDate) {
+    filters.eventDateTime = {}
+    if (startDate) filters.eventDateTime.$gte = new Date(startDate)
+    if (endDate) filters.eventDateTime.$lte = new Date(endDate)
+  }
+
+  if (location) {
+    filters.location = { $regex: new RegExp(location, "i") };
+  }
+
+  console.log(filters);
+  
+  const events = await Event.find(filters)
     .populate("organizerID", "name email") // Populate organizer details
     .select("-__v")
   res.status(200).json(events)
