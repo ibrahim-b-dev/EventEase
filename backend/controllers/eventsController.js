@@ -1,4 +1,5 @@
 const Event = require("../models/event")
+const RSVP = require("../models/rsvp")
 
 const addEvent = async (req, res) => {
   const {
@@ -38,7 +39,7 @@ const addEvent = async (req, res) => {
     organizerID: req.user.id,
     location,
     capacity,
-    ticketPricing: ticketPricing || { price: 0 },
+    ticketPricing: ticketPricing || 0,
     categories,
   })
 
