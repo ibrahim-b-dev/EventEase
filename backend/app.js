@@ -7,9 +7,9 @@ const usersRouter = require("./routes/userRoutes")
 const eventsRouter = require("./routes/eventRoutes")
 const rsvpRouter = require("./routes/rsvpRoutes")
 const middleware = require("./middlewares/index")
+const logger = require("./utils/logger")
 
 const app = express()
-
 connectToDataBase()
 
 app.get("/", (request, response) => {
@@ -17,6 +17,10 @@ app.get("/", (request, response) => {
 })
 
 app.use(express.json())
+app.use(logger.requestIdLogger)
+app.use(logger.morganLogger)
+app.use(logger.requestTimingLogger)
+
 app.use("/api/auth", authRouter)
 app.use("/api/users", validateToken, usersRouter)
 app.use("/api/events", validateToken, eventsRouter)
