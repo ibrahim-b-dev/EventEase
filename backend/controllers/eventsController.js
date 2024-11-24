@@ -101,7 +101,7 @@ const updateEvent = async (req, res) => {
   if (event.organizerID.toString() !== userId) {
     return res
       .status(403)
-      .json({ error: "You are not authorized to delete this event" })
+      .json({ error: "You are not authorized to update this event" })
   }
 
   const updatedEvent = await Event.findByIdAndUpdate(id, updates, {
