@@ -1,6 +1,6 @@
-const { verifyToken } = require("../utils/tokenUtils")
 const User = require("../models/user")
-const logger = require("../utils/logger")
+const { verifyToken } = require("../utils/tokenUtils")
+const errorHandler = require("./errorHandler")
 
 const validateToken = async (req, res, next) => {
   const authHeader = req.get("authorization")
@@ -31,36 +31,33 @@ const validateToken = async (req, res, next) => {
 // role-based access middleware
 const checkRoles = (...allowedRoles) => {
   return (req, res, next) => {
-    const userRoles = req.user?.roles
+    try {
+      const userRoles = req.user?.roles
 
-    const hasAccess = userRoles.some((role) => allowedRoles.includes(role))
-    if (!userRoles || !hasAccess) {
+      const hasAccess = userRoles.some((role) => allowedRoles.includes(role))
+      if (!userRoles || !hasAccess) {
+        return res
+          .status(403)
+          .json({ error: "Access denied. Role not authorized." })
+      }
+
+      next()
+    } catch (error) {
       return res
         .status(403)
-        .json({ error: "Access denied. Role not authorized." })
+        .json({ error: "Access denied. Authenticate first." })
     }
-
-    next()
   }
 }
 
 const unknownEndpoint = (req, res) => {
-  res.status(404).send({ error: "unknow endpoint" })
+  res.status(404).send({ error: "unknown endpoint" })
 }
 
-const errorHandler = (error, req, res, next) => {
-  logger.error(error.messsage)
-
-  switch (error.name) {
-    case "ValidationError":
-      return res.status(400).json({ error: error.message })
-    case "CastError":
-      return res.status(400).json({ error: "Error" })
-    case "MongooseError":
-      return res.status(400).json({ error: "Database Error" })
-    default:
-      return res.status(400).json({ error: error.message })
-  }
+module.exports = {
+  errorHandler,
+  validateToken,
+  checkRoles,
+  unknownEndpoint,
+  errorHandler,
 }
-
-module.exports = { validateToken, checkRoles, unknownEndpoint, errorHandler }
