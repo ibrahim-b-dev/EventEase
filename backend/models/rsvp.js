@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const Event = require("./event")
 
 // A schema defines the structure of collection documents.
 const rsvpSchema = new mongoose.Schema({
@@ -32,8 +33,8 @@ const rsvpSchema = new mongoose.Schema({
     type: String,
     required: true,
     enum: {
-      values: ["Yes", "No", "Maybe"],
-      message: "RSVP status must be 'Yes', 'No', or 'Maybe'",
+      values: ["yes", "no", "maybe"],
+      message: "RSVP status must be 'yes', 'no', or 'maybe'",
     },
     default: "Maybe",
   },
@@ -55,6 +56,34 @@ rsvpSchema.set("toJSON", {
     delete ret.__v
   },
   flattenObjectIds: true,
+})
+
+rsvpSchema.post("save", async function () {
+  const yesCount = await RSVP.countDocuments({
+    eventID: this.eventID,
+    RSVP_Status: "Yes",
+  })
+  const maybeCount = await RSVP.countDocuments({
+    eventID: this.eventID,
+    RSVP_Status: "Maybe",
+  })
+
+  const popularityScore = yesCount * 2 + maybeCount
+  await Event.findByIdAndUpdate(this.eventID, { popularity: popularityScore })
+})
+
+rsvpSchema.post("remove", async function () {
+  const yesCount = await RSVP.countDocuments({
+    eventID: this.eventID,
+    RSVP_Status: "Yes",
+  })
+  const maybeCount = await RSVP.countDocuments({
+    eventID: this.eventID,
+    RSVP_Status: "Maybe",
+  })
+
+  const popularityScore = yesCount * 2 + maybeCount
+  await Event.findByIdAndUpdate(this.eventID, { popularity: popularityScore })
 })
 
 // Pre-save middleware to update the `updatedAt` field.
