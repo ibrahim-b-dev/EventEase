@@ -26,7 +26,7 @@ eventsRouter.get(
 
 eventsRouter.get(
   "/:id/rsvps",
-  checkRoles("Organizer", "User"),
+  checkRoles("Organizer"),
   getEventRSVPs
 )
 
