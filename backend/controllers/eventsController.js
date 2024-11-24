@@ -5,7 +5,7 @@ const addEvent = async (req, res) => {
   const {
     title,
     description,
-    date: eventDateTime,
+    eventDateTime,
     location,
     capacity,
     ticketPricing,
@@ -51,7 +51,7 @@ const addEvent = async (req, res) => {
 }
 
 const getAllEvents = async (req, res) => {
-  const { startDate, endDate, location } = req.query
+  const { startDate, endDate, location, organizer } = req.query
   const { sortBy = "eventDateTime", order = "asc" } = req.query
 
   const validSortAttributes = ["eventDateTime", "popularity"]
@@ -74,7 +74,7 @@ const getAllEvents = async (req, res) => {
 
   const events = await Event.find(filters)
     .populate("organizerID", "name email")
-    // .populate("popularity")
+    .populate("popularity")
     .sort({ [sortBy]: sortOrder })
     .exec()
 
@@ -93,21 +93,21 @@ const getEvent = async (req, res) => {
 }
 
 const getEventRSVPs = async (req, res) => {
-  const { id: eventId } = req.params
+  const { id } = req.params
 
-  const event = await Event.findById(eventId)
+  const event = await Event.findById(id)
   if (!event) {
     return res.status(404).json({ error: "Event not found" })
   }
 
-  const rsvps = await RSVP.find({ eventID: eventId }).populate(
+  const rsvps = await RSVP.find({ eventID: id }).populate(
     "userID",
     "name email"
   )
 
   res.status(200).json({
     message: `RSVPs for event: ${event.title}`,
-    eventId,
+    eventId: id,
     rsvps,
   })
 }

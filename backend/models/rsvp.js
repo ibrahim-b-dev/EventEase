@@ -36,7 +36,7 @@ const rsvpSchema = new mongoose.Schema({
       values: ["yes", "no", "maybe"],
       message: "RSVP status must be 'yes', 'no', or 'maybe'",
     },
-    default: "Maybe",
+    default: "maybe",
   },
   attendeesCount: {
     type: Number,
@@ -61,11 +61,11 @@ rsvpSchema.set("toJSON", {
 rsvpSchema.post("save", async function () {
   const yesCount = await RSVP.countDocuments({
     eventID: this.eventID,
-    RSVP_Status: "Yes",
+    RSVP_Status: "yes",
   })
   const maybeCount = await RSVP.countDocuments({
     eventID: this.eventID,
-    RSVP_Status: "Maybe",
+    RSVP_Status: "maybe",
   })
 
   const popularityScore = yesCount * 2 + maybeCount
@@ -75,11 +75,11 @@ rsvpSchema.post("save", async function () {
 rsvpSchema.post("remove", async function () {
   const yesCount = await RSVP.countDocuments({
     eventID: this.eventID,
-    RSVP_Status: "Yes",
+    RSVP_Status: "yes",
   })
   const maybeCount = await RSVP.countDocuments({
     eventID: this.eventID,
-    RSVP_Status: "Maybe",
+    RSVP_Status: "maybe",
   })
 
   const popularityScore = yesCount * 2 + maybeCount
