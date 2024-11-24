@@ -2,7 +2,7 @@
 
 const config = require("../utils/config")
 const mongoose = require("mongoose")
-const logger = require("../utils/logger")
+const { logger } = require("../utils/logger")
 const User = require("../models/user")
 const Event = require("../models/event")
 const RSVP = require("../models/rsvp")

@@ -1,4 +1,4 @@
-const logger = require("../utils/logger")
+const { logger } = require("../utils/logger")
 const User = require("../models/user")
 const Event = require("../models/event")
 const RSVP = require("../models/rsvp")
@@ -42,6 +42,16 @@ const seedDatabase = async () => {
       },
     ]
 
+    // const users = []
+    // for (const userData of usersData) {
+    //   const hashedPassword = await hashPassword(userData.password)
+    //   const user = new User({ ...userData, password: hashedPassword })
+    //   await user.save()
+    //   users.push(user)
+    // }
+    // logger.info("Seeded Users:")
+    // logger.info(users)
+
     const hashedUsersData = await Promise.all(
       usersData.map(async (user) => {
         const hashedPassword = await hashPassword(user.password)
@@ -57,7 +67,7 @@ const seedDatabase = async () => {
     const jane = users.find((user) => user.name === "Jane Smith")
     const alice = users.find((user) => user.name === "Alice Johnson")
 
-    const events = await Event.insertMany([
+    const eventsData = [
       {
         title: "Tech Meetup",
         description: "A meetup for tech enthusiasts.",
@@ -102,8 +112,16 @@ const seedDatabase = async () => {
         registrationDeadline: new Date("2024-12-20T23:59:59.000Z"),
         categories: ["Music", "Entertainment"],
       },
-    ])
-    logger.info("Seeded Events:", events)
+    ]
+
+    const events = []
+    for (const eventData of eventsData) {
+      const event = new Event(eventData)
+      await event.save()
+      events.push(event)
+    }
+    logger.info("Seeded Events:")
+    logger.info(events)
 
     const techMeetup = events.find((event) => event.title === "Tech Meetup")
     const startupPitchNight = events.find(
@@ -111,32 +129,40 @@ const seedDatabase = async () => {
     )
     const aiWorkshop = events.find((event) => event.title === "AI Workshop")
 
-    const rsvps = await RSVP.insertMany([
+    const rsvpsData = [
       {
         userID: jane._id,
         eventID: techMeetup._id,
-        RSVP_Status: "Yes",
+        RSVP_Status: "yes",
         attendeesCount: 2,
       },
       {
         userID: alice._id,
         eventID: techMeetup._id,
-        RSVP_Status: "No",
+        RSVP_Status: "yes",
       },
       {
         userID: jane._id,
         eventID: aiWorkshop._id,
-        RSVP_Status: "Yes",
+        RSVP_Status: "yes",
         attendeesCount: 1,
       },
       {
         userID: alice._id,
         eventID: startupPitchNight._id,
-        RSVP_Status: "Maybe",
+        RSVP_Status: "maybe",
         attendeesCount: 1,
       },
-    ])
-    logger.info("Seeded RSVPs:", rsvps)
+    ]
+
+    const rsvps = []
+    for (const rsvpData of rsvpsData) {
+      const rsvp = new RSVP(rsvpData)
+      await rsvp.save()
+      rsvps.push(rsvp)
+    }
+    logger.info("Seeded RSVPs:")
+    logger.info(rsvps)
 
     logger.info("Database seeded successfully")
     process.exit()
