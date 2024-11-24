@@ -1,12 +1,24 @@
 const RSVP = require("../models/rsvp")
 
 const createRSVP = async (req, res) => {
-  const { userID, eventID, RSVP_Status, attendeesCount } = req.body
+  const { eventID, RSVP_Status, attendeesCount } = req.body
+  const userID = req.user?._id
 
-  if (!userID || !eventID || !RSVP_Status) {
+  if (!userID) {
+    return res.status(401).json({ error: "Authentication required" })
+  }
+
+  if (!eventID || !RSVP_Status) {
     return res
       .status(400)
-      .json({ error: "userID, eventID, and RSVP_Status are required" })
+      .json({ error: "eventID, and RSVP_Status are required" })
+  }
+
+  const existingRSVP = await RSVP.findOne({ userID, eventID })
+  if (existingRSVP) {
+    return res
+      .status(400)
+      .json({ error: "User has already RSVP'd for this event" })
   }
 
   const newRSVP = new RSVP({
@@ -21,43 +33,52 @@ const createRSVP = async (req, res) => {
   res.status(201).json({ message: "RSVP created successfully", newRSVP })
 }
 
-const getRSVP = async (req, res) => {
-  const { userID, eventID } = req.query
+const getUserRSVP = async (req, res) => {
+  const userID = req.user?._id
 
-  if (!userID && !eventID) {
-    return res.status(400).json({
-      error: "At least one query parameter (userID or eventID) is required",
-    })
+  if (!userID) {
+    return res.status(401).json({ error: "Authentication required" })
   }
 
-  const rsvps = await RSVP.find({
-    ...(userID && { userID }),
-    ...(eventID && { eventID }),
-  })
+  const rsvps = await RSVP.find({ userID })
+    .populate("eventID", "title eventDateTime location")
     .populate("userID", "name email")
-    .populate("eventID", "title eventDateTime")
 
-  if (!rsvp.length) {
-    return res.status(404).json({ error: "RSVP not found" })
+  if (!rsvps.length) {
+    return res.status(404).json({ error: "No RSVPs found for this user" })
   }
 
   res.status(200).json(rsvps)
 }
 
-const deleteRSVP = async (req, res) => {
+const deleteUserRSVP = async (req, res) => {
   const { id } = req.params
+  const userID = req.user?._id
 
-  const deletedRSVP = await RSVP.findByIdAndDelete(id)
+  if (!userID) {
+    return res.status(401).json({ error: "Authentication required" })
+  }
 
-  if (!deletedRSVP) {
+  const rsvp = await RSVP.findById(id)
+  if (!rsvp) {
     return res.status(404).json({ error: "RSVP not found" })
   }
 
-  res.status(200).json({ message: "RSVP deleted successfully", deletedRSVP })
+  if (rsvp.userID.toString() !== userID.toString()) {
+    return res
+      .status(403)
+      .json({ error: "You are not authorized to delete this RSVP" })
+  }
+
+  await rsvp.deleteOne()
+
+  res
+    .status(404)
+    .json({ message: "RSVP deleted successfully", deletedRSVP: rsvp })
 }
 
 module.exports = {
   createRSVP,
-  getRSVP,
-  deleteRSVP,
+  getUserRSVP,
+  deleteUserRSVP,
 }

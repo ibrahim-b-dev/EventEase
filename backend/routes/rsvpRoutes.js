@@ -1,14 +1,14 @@
 const rsvpRouter = require("express").Router()
 const {
   createRSVP,
-  getRSVP,
-  deleteRSVP,
+  getUserRSVP,
+  deleteUserRSVP,
 } = require("../controllers/rsvpController")
 const { checkRoles } = require("../middlewares")
 
 rsvpRouter.use(checkRoles("User"))
-rsvpRouter.post("/rsvp", createRSVP)
-rsvpRouter.get("/rsvp", getRSVP)
-rsvpRouter.delete("/rsvp/:id", deleteRSVP)
+rsvpRouter.post("/", createRSVP)
+rsvpRouter.get("/", getUserRSVP)
+rsvpRouter.delete("/:id", deleteUserRSVP)
 
 module.exports = rsvpRouter
