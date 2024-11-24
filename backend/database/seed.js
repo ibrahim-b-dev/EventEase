@@ -1,8 +1,8 @@
-const logger = require("./logger")
+const logger = require("../utils/logger")
 const User = require("../models/user")
 const Event = require("../models/event")
 const RSVP = require("../models/rsvp")
-const { hashPassword } = require("./passwordUtils")
+const { hashPassword } = require("../utils/passwordUtils")
 
 const seedDatabase = async () => {
   try {
@@ -37,17 +37,17 @@ const seedDatabase = async () => {
         name: "Alice Johnson",
         email: "alice@example.com",
         password: "123456",
-        role: ["User"],
+        roles: ["User"],
         phone: "+1234567890",
-      }
+      },
     ]
 
     const hashedUsersData = await Promise.all(
       usersData.map(async (user) => {
-        const hashedPassword = await hashPassword(user.password);
-        return { ...user, password: hashedPassword };
+        const hashedPassword = await hashPassword(user.password)
+        return { ...user, password: hashedPassword }
       })
-    );
+    )
 
     const users = await User.insertMany(hashedUsersData)
     logger.info("Seeded Users:", users)
@@ -65,18 +65,20 @@ const seedDatabase = async () => {
         location: "City Hall",
         organizerID: john._id,
         capacity: 100,
-        ticketPricing: { price: 50, registrationDeadline: new Date("2024-12-01T23:59:59.000Z") },
+        ticketPricing: 50,
+        registrationDeadline: new Date("2024-12-01T23:59:59.000Z"),
         categories: ["Technology", "Networking"],
       },
       {
         title: "Startup Pitch Night",
         description: "Pitch your startup ideas to potential investors.",
-        eventDateTime: new Date("2024-12-15T09:00:00.000Z"),
+        eventDateTime: new Date("2024-11-25T18:00:00.000Z"),
         location: "Innovation Hub",
         organizerID: ibrahim._id,
-        capacity: 200,
-        ticketPricing: { price: 100, registrationDeadline: new Date("2024-12-05T23:59:59.000Z") },
-        categories: ["Startup", "Innovation"],
+        capacity: 150,
+        ticketPricing: 75,
+        registrationDeadline: new Date("2024-11-20T23:59:59.000Z"),
+        categories: ["Startup", "Business"],
       },
       {
         title: "AI Workshop",
@@ -84,9 +86,21 @@ const seedDatabase = async () => {
         eventDateTime: new Date("2024-12-15T09:00:00.000Z"),
         location: "Tech Center",
         organizerID: john._id,
-        capacity: 200,
-        ticketPricing: { price: 100, registrationDeadline: new Date("2024-12-05T23:59:59.000Z") },
-        categories: ["Artificial Intelligence", "Innovation"],
+        capacity: 50,
+        ticketPricing: 100,
+        registrationDeadline: new Date("2024-12-10T23:59:59.000Z"),
+        categories: ["Artificial Intelligence", "Learning"],
+      },
+      {
+        title: "Music Festival",
+        description: "A night of amazing performances.",
+        eventDateTime: new Date("2024-12-31T20:00:00.000Z"),
+        location: "Central Park",
+        organizerID: ibrahim._id,
+        capacity: 500,
+        ticketPricing: 150,
+        registrationDeadline: new Date("2024-12-20T23:59:59.000Z"),
+        categories: ["Music", "Entertainment"],
       },
     ])
     logger.info("Seeded Events:", events)

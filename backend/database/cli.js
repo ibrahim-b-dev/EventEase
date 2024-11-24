@@ -34,7 +34,7 @@ const runCommand = async () => {
 
   switch (command) {
     case "seed":
-      await require("../../utils/seed")()
+      await require("./seed")()
       break
 
     case "list-users":
