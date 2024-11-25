@@ -15,11 +15,11 @@ const setProfile = async (req, res) => {
   const id = req.user.id
   const { name, email, phone } = req.body
 
-  if (!name && !email && !phone) {
-    return res.status(400).json({
-      error: "At least one field (name, email, phone) is required",
-    })
-  }
+  // if (!name && !email && !phone) {
+  //   return res.status(400).json({
+  //     error: "At least one field (name, email, phone) is required",
+  //   })
+  // }
   
   const updatedUser = await User.findByIdAndUpdate(
     id,
