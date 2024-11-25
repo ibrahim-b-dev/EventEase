@@ -2,10 +2,7 @@ const checkRoles = (...allowedRoles) => {
   return (req, res, next) => {
     try {
       const userRole = req.user?.role
-
-      console.log("HERE");
-      console.log(allowedRoles);
-      
+            
       if (!userRole || !allowedRoles.includes(userRole)) {
         return res
           .status(403)

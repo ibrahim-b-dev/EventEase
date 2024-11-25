@@ -1,5 +1,6 @@
 const eventsRouter = require("express").Router()
-const { checkRoles } = require("../middlewares")
+const { validateRequest, checkRoles } = require("../middlewares")
+const { addEventSchema } = require("../schemas/eventSchemas")
 const {
   addEvent,
   getAllEvents,
@@ -9,25 +10,18 @@ const {
   deleteEvent,
 } = require("../controllers/eventsController")
 
-eventsRouter.post("/", checkRoles("Organizer", "Admin"), addEvent)
-
-eventsRouter.get(
+eventsRouter.post(
   "/",
-  checkRoles("Organizer", "User", "Admin"),
-  getAllEvents
-)
-
-eventsRouter.get(
-  "/:id",
-  checkRoles("Organizer", "User", "Admin"),
-  getEvent
-)
-
-eventsRouter.get(
-  "/:id/rsvps",
+  validateRequest(addEventSchema),
   checkRoles("Organizer", "Admin"),
-  getEventRSVPs
+  addEvent
 )
+
+eventsRouter.get("/", checkRoles("Organizer", "User", "Admin"), getAllEvents)
+
+eventsRouter.get("/:id", checkRoles("Organizer", "User", "Admin"), getEvent)
+
+eventsRouter.get("/:id/rsvps", checkRoles("Organizer", "Admin"), getEventRSVPs)
 
 eventsRouter.put("/:id", checkRoles("Organizer", "Admin"), updateEvent)
 

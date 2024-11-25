@@ -24,7 +24,9 @@ const register = async (req, res) => {
   const userRole = role || "User"
 
   if (userRole === "Admin") {
-    return res.status(403).json({ error: "You are not authorized to assign the Admin role." });
+    return res
+      .status(403)
+      .json({ error: "You are not authorized to assign the Admin role." })
   }
 
   const newUser = new User({
@@ -53,8 +55,7 @@ const login = async (req, res) => {
     return res.status(401).json({ error: "Invalid email or password" })
   }
 
-  const isMatch = await user.comparePassword(password)
-
+  const isMatch = await user.comparePassword(password)  
   if (isMatch) {
     const token = signToken({ id: user._id, email: user.email })
     return res.status(200).json({ message: "Login successful", token })
