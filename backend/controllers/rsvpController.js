@@ -8,12 +8,6 @@ const createRSVP = async (req, res) => {
     return res.status(401).json({ error: "Authentication required" })
   }
 
-  if (!eventID || !RSVP_Status) {
-    return res
-      .status(400)
-      .json({ error: "eventID, and RSVP_Status are required" })
-  }
-
   const existingRSVP = await RSVP.findOne({ userID, eventID })
   if (existingRSVP) {
     return res
