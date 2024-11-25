@@ -2,7 +2,7 @@ const User = require("../models/user")
 const { signToken } = require("../utils/tokenUtils")
 
 const register = async (req, res) => {
-  const { name, email, password, phone, roles } = req.body
+  const { name, email, password, phone, role } = req.body
 
   if (!name || !email || !password) {
     return res
@@ -21,14 +21,18 @@ const register = async (req, res) => {
     return res.status(400).json({ error: "Email already in use" })
   }
 
-  const userRoles = roles || "User"
+  const userRole = role || "User"
+
+  if (userRole === "Admin") {
+    return res.status(403).json({ error: "You are not authorized to assign the Admin role." });
+  }
 
   const newUser = new User({
     name,
     email,
     password,
     phone,
-    roles: userRoles,
+    role: userRole,
   })
   await newUser.save()
 

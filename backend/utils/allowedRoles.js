@@ -1,3 +1,3 @@
-const allowedRoles = ["User", "Organizer"]
+const allowedRoles = ["User", "Organizer", "Admin"]
 
 module.exports = allowedRoles

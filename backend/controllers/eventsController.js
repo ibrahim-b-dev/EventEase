@@ -25,7 +25,7 @@ const addEvent = async (req, res) => {
     })
   }
 
-  if (!req.user?.roles?.includes("Organizer")) {
+  if (!req.user?.role === "Organizer") {
     return res
       .status(403)
       .json({ error: "Access denied. Only Organizers can add events." })

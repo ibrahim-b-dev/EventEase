@@ -16,41 +16,31 @@ const seedDatabase = async () => {
         name: "Ibrahim Dev",
         email: "ibrahim@example.com",
         password: "123456",
-        roles: ["Organizer"],
+        role: "Organizer",
         phone: "+1234567890",
       },
       {
         name: "John Doe",
         email: "john@example.com",
         password: "123456",
-        roles: ["Organizer"],
+        role: "Organizer",
         phone: "+1234567890",
       },
       {
         name: "Jane Smith",
         email: "jane@example.com",
         password: "123456",
-        roles: ["User"],
+        role: "User",
         phone: "+1234567890",
       },
       {
         name: "Alice Johnson",
         email: "alice@example.com",
         password: "123456",
-        roles: ["User"],
+        role: "User",
         phone: "+1234567890",
       },
     ]
-
-    // const users = []
-    // for (const userData of usersData) {
-    //   const hashedPassword = await hashPassword(userData.password)
-    //   const user = new User({ ...userData, password: hashedPassword })
-    //   await user.save()
-    //   users.push(user)
-    // }
-    // logger.info("Seeded Users:")
-    // logger.info(users)
 
     const hashedUsersData = await Promise.all(
       usersData.map(async (user) => {
@@ -60,7 +50,8 @@ const seedDatabase = async () => {
     )
 
     const users = await User.insertMany(hashedUsersData)
-    logger.info("Seeded Users:", users)
+    logger.info("Seeded Users:")
+    logger.info(users)
 
     const ibrahim = users.find((user) => user.name === "Ibrahim Dev")
     const john = users.find((user) => user.name === "John Doe")
@@ -163,7 +154,7 @@ const seedDatabase = async () => {
     }
     logger.info("Seeded RSVPs:")
     logger.info(rsvps)
-
+    
     logger.info("Database seeded successfully")
     process.exit()
   } catch (err) {

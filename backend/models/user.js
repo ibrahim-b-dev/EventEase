@@ -27,20 +27,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
-  roles: {
-    type: [String],
+  role: {
+    type: String,
     required: true,
-    default: ["User"],
+    default: "User",
     enum: {
       values: allowedRoles,
       message: "Role `{VALUE}` is not valid.",
-    },
-    validate: {
-      validator: function (roles) {
-        return roles.length === new Set(roles).size
-      },
-      message: "Duplicate roles are not allowed.",
-    },
+    }
   },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },

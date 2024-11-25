@@ -33,23 +33,30 @@ const runCommand = async () => {
   const command = args[0]
 
   switch (command) {
+    case "create-admin":
+      await require("./adminUser")()
+      break
+
     case "seed":
       await require("./seed")()
       break
 
     case "list-users":
       const users = await User.find()
-      logger.info("Users:", users)
+      logger.info("Users:")
+      logger.info(users)
       break
 
     case "list-events":
       const events = await Event.find()
-      logger.info("Events:", events)
+      logger.info("Events:")
+      logger.info(events)
       break
 
     case "list-rsvps":
       const rsvps = await RSVP.find()
-      logger.info("RSVPs:", rsvps)
+      logger.info("RSVPs:")
+      logger.info(rsvps)
       break
 
     case "delete-users":
@@ -67,7 +74,7 @@ const runCommand = async () => {
       logger.info("All RSVPs deleted")
       break
 
-    case "delete-all":
+    case "clear":
       await User.deleteMany({})
       await Event.deleteMany({})
       await RSVP.deleteMany({})

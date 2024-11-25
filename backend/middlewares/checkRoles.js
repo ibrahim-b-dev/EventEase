@@ -1,10 +1,12 @@
 const checkRoles = (...allowedRoles) => {
   return (req, res, next) => {
     try {
-      const userRoles = req.user?.roles
+      const userRole = req.user?.role
 
-      const hasAccess = userRoles.some((role) => allowedRoles.includes(role))
-      if (!userRoles || !hasAccess) {
+      console.log("HERE");
+      console.log(allowedRoles);
+      
+      if (!userRole || !allowedRoles.includes(userRole)) {
         return res
           .status(403)
           .json({ error: "Access denied. Role not authorized." })
