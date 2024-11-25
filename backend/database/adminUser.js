@@ -1,6 +1,5 @@
 const { logger } = require("../utils/logger")
 const User = require("../models/user")
-const { hashPassword } = require("../utils/passwordUtils")
 
 const createAdminUser = async () => {
   try {
@@ -18,8 +17,7 @@ const createAdminUser = async () => {
       process.exit()
     }
 
-    const hashedPassword = await hashPassword(adminData.password)
-    const adminUser = new User({ ...adminData, password: hashedPassword })
+    const adminUser = new User({ ...adminData })
 
     await adminUser.save()
 
