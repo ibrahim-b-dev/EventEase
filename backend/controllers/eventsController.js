@@ -12,25 +12,6 @@ const addEvent = async (req, res) => {
     categories,
   } = req.body
 
-  if (
-    !title ||
-    !description ||
-    !eventDateTime ||
-    !location ||
-    !capacity ||
-    !categories?.length
-  ) {
-    return res.status(400).json({
-      error: "All fields (including capacity and categories) are required.",
-    })
-  }
-
-  if (!req.user?.role === "Organizer") {
-    return res
-      .status(403)
-      .json({ error: "Access denied. Only Organizers can add events." })
-  }
-
   const newEvent = new Event({
     title,
     description,
