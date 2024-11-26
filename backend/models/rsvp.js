@@ -58,7 +58,36 @@ rsvpSchema.set("toJSON", {
   flattenObjectIds: true,
 })
 
+rsvpSchema.pre("save", function (next) {
+  this.updatedAt = new Date()
+  next()
+})
+
+rsvpSchema.pre("save", async function (next) {
+  const event = await Event.findById(this.eventID)
+
+  if (!event) {
+    return next(new Error("Event not found."))
+  }
+
+  if (event.capacity < this.attendeesCount) {
+    return next(new Error("Not enough available slots for this event."))
+  }
+
+  next()
+})
+
 rsvpSchema.post("save", async function () {
+  const event = await Event.findById(this.eventID)
+
+  if (!event) {
+    throw new Error("Event not found.")
+  }
+
+  if (event.capacity < this.attendeesCount) {
+    return next(new Error("Not enough available slots for this event."))
+  }
+
   const yesCount = await RSVP.countDocuments({
     eventID: this.eventID,
     RSVP_Status: "yes",
@@ -69,7 +98,15 @@ rsvpSchema.post("save", async function () {
   })
 
   const popularityScore = yesCount * 2 + maybeCount
-  await Event.findByIdAndUpdate(this.eventID, { popularity: popularityScore })
+
+  await Event.findByIdAndUpdate(
+    this.eventID,
+    {
+      popularity: popularityScore,
+      $inc: { capacity: -this.attendeesCount },
+    },
+    { new: true }
+  )
 })
 
 rsvpSchema.post("remove", async function () {
@@ -83,13 +120,14 @@ rsvpSchema.post("remove", async function () {
   })
 
   const popularityScore = yesCount * 2 + maybeCount
-  await Event.findByIdAndUpdate(this.eventID, { popularity: popularityScore })
-})
-
-// Pre-save middleware to update the `updatedAt` field.
-rsvpSchema.pre("save", function (next) {
-  this.updatedAt = new Date()
-  next()
+  await Event.findByIdAndUpdate(
+    this.eventID,
+    {
+      popularity: popularityScore,
+      $inc: { capacity: this.attendeesCount },
+    },
+    { new: true }
+  )
 })
 
 // Models take schema and apply it to each document in its collection.
