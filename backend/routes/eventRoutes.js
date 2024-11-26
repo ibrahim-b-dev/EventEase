@@ -2,6 +2,7 @@ const eventsRouter = require("express").Router()
 const {
   checkRoles,
   validators: { validateRequest, validateQuery },
+  checkUserActive,
 } = require("../middlewares")
 const { addEventSchema, getAllEventsSchema } = require("../schemas")
 const {
@@ -12,6 +13,8 @@ const {
   updateEvent,
   deleteEvent,
 } = require("../controllers/eventsController")
+
+eventsRouter.use(checkUserActive)
 
 eventsRouter.post(
   "/",

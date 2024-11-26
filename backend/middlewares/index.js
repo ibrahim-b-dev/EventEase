@@ -1,4 +1,5 @@
 const validateToken = require("./validateToken")
+const checkUserActive = require("./checkUserActive")
 const validators = require("./validators")
 const checkRoles = require("./checkRoles")
 const errorHandler = require("./errorHandler")
@@ -9,6 +10,7 @@ const unknownEndpoint = (req, res) => {
 
 module.exports = {
   validateToken,
+  checkUserActive,
   validators,
   checkRoles,
   errorHandler,

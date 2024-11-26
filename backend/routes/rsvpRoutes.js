@@ -4,10 +4,11 @@ const {
   getUserRSVP,
   deleteUserRSVP,
 } = require("../controllers/rsvpController")
-const { checkRoles } = require("../middlewares")
+const { checkRoles, checkUserActive } = require("../middlewares")
 const { validateRequest } = require("../middlewares/validators")
 const { createRSVPSchema } = require("../schemas")
 
+rsvpRouter.use(checkUserActive)
 rsvpRouter.use(checkRoles("User", "Admin"))
 rsvpRouter.post("/", validateRequest(createRSVPSchema), createRSVP)
 rsvpRouter.get("/", getUserRSVP)
