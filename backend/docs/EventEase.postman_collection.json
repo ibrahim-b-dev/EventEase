@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "1676fe2b-e57b-43bc-b572-387e7380de2d",
 		"name": "EventEase",
+		"description": "**EventEase API**  \n  \nEventEase simplifies event management by providing a robust API to handle users, events, RSVPs, and admin tasks.\n\n### Features:\n\n- **User Management**: Register, login, and manage user details.\n    \n- **Event Management**: Create, update, and view events with support for filtering, sorting, and category management.\n    \n- **RSVP System**: RSVP for events with real-time attendee tracking and capacity management.\n    \n- **Admin Operations**: Full control over user, event, and RSVP data for administrators.\n    \n\n### Usage:\n\n- Each endpoint is equipped with role-based access control and input validation.\n    \n- Follow the authentication requirements and pass the necessary tokens in headers.\n    \n- Refer to example requests and responses in the collection for easy integration.\n    \n\n### Notes:\n\n- Ensure required fields and data formats align with the documented schemas (e.g., ISO date format).\n    \n- Handle error responses gracefully; see response codes and error messages for details.\n    \n\nHappy developing! 😊",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "39209152"
 	},
@@ -21,7 +22,35 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"testuser\",\n  \"email\": \"dfaswaasweeqd@lk.com\",\n  \"password\": \"12\"\n}"
+							"raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"123456\",\n  \"phone\": \"+123456789\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/auth/register",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Endpoint to register a new user."
+					},
+					"response": []
+				},
+				{
+					"name": "Register Organizer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test Organizer\",\n  \"email\": \"testorganizer@example.com\",\n  \"password\": \"123456\",\n  \"role\": \"Organizer\"\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/auth/register",
@@ -62,7 +91,89 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"ibrahim@example.com\",\n  \"password\": \"123\"\n}"
+							"raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/auth/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Endpoint to log in a user."
+					},
+					"response": []
+				},
+				{
+					"name": "Login Organizer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"pm.environment.set(\"TOKEN\", response.token);",
+									"console.log(\"Token set to environment:\", response.token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"testorganizer@example.com\",\n  \"password\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/auth/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Endpoint to log in a user."
+					},
+					"response": []
+				},
+				{
+					"name": "Login Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"pm.environment.set(\"ADMIN\", response.token);",
+									"console.log(\"Token set to environment:\", response.token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"123456\"\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/auth/login",
@@ -108,7 +219,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\": \"456456465\",\n    \"roles\": [\"Organizer\", \"User\"]\n}",
+							"raw": "{\n    \"phone\": \"+12345678989\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -129,16 +240,6 @@
 					"response": []
 				}
 			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "{{TOKEN}}",
-						"type": "string"
-					}
-				]
-			},
 			"event": [
 				{
 					"listen": "prerequest",
@@ -168,6 +269,15 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Startup Pitch Night\",\n    \"description\": \"Pitch your startup ideas to potential investors.\",\n    \"eventDateTime\": \"2024-11-25T18:00:00.000Z\",\n    \"location\": \"Innovation Hub\",\n    \"capacity\": 150,\n    \"ticketPricing\": 75,\n    \"registrationDeadline\": \"2024-11-20T23:59:59.000Z\",\n    \"categories\": [\n        \"Startup\",\n        \"Business\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{URL}}/events",
 							"host": [
@@ -192,6 +302,13 @@
 							],
 							"path": [
 								"events"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -203,12 +320,31 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/events",
+							"raw": "{{URL}}/events?endDate=2024-12-20&startDate=2024-12-02&location=cen",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"events"
+							],
+							"query": [
+								{
+									"key": "endDate",
+									"value": "2024-12-20"
+								},
+								{
+									"key": "startDate",
+									"value": "2024-12-02"
+								},
+								{
+									"key": "location",
+									"value": "cen"
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -220,12 +356,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/events",
+							"raw": "{{URL}}/events?sortBy=popularity&order=desc",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"events"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "popularity"
+								},
+								{
+									"key": "order",
+									"value": "desc"
+								}
 							]
 						}
 					},
@@ -237,12 +383,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/events",
+							"raw": "{{URL}}/events/67445e7e8a79291a65a8bf91",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"events"
+								"events",
+								"67445e7e8a79291a65a8bf91"
 							]
 						}
 					},
@@ -254,13 +401,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/events/674310befff0d7f12fc19fa9/rsvps",
+							"raw": "{{URL}}/events/67445e7e8a79291a65a8bf91/rsvps",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"events",
-								"674310befff0d7f12fc19fa9",
+								"67445e7e8a79291a65a8bf91",
 								"rsvps"
 							]
 						}
@@ -272,13 +419,23 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"test\",\n    \"description\": \"A meetup for tech enthusiasts.......\",\n    \"capacity\": \"10\",\n    \"location\": \"Cyprus\",\n    \"eventDateTime\": \"2024-12-20T09:00:00.000Z\",\n    \"registrationDeadline\": \"2024-12-12\",\n    \"categories\": [\"AI\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{URL}}/events",
+							"raw": "{{URL}}/events/67445f43843e0965f4ed2583",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"events"
+								"events",
+								"67445f43843e0965f4ed2583"
 							]
 						}
 					},
@@ -290,28 +447,19 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/events",
+							"raw": "{{URL}}/events/67445f43843e0965f4ed2583",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"events"
+								"events",
+								"67445f43843e0965f4ed2583"
 							]
 						}
 					},
 					"response": []
 				}
 			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "{{TOKEN}}",
-						"type": "string"
-					}
-				]
-			},
 			"event": [
 				{
 					"listen": "prerequest",
@@ -343,7 +491,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \n}",
+							"raw": "{\n    \"eventID\": \"6744abcec8225051fa24a008\",\n    \"RSVP_Status\": \"yes\",\n    \"attendeesCount\": 5\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -364,21 +512,9 @@
 				},
 				{
 					"name": "get all RSVPs",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"userID\": \"674310befff0d7f12fc19fa4\",\n    \"eventID\": \"674310befff0d7f12fc19fa7\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{URL}}/rsvp",
 							"host": [
@@ -386,6 +522,13 @@
 							],
 							"path": [
 								"rsvp"
+							],
+							"query": [
+								{
+									"key": "eventID",
+									"value": "674310befff0d7f12fc19fa7",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -397,17 +540,420 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/rsvp/67431608a0334566f0f399b7",
+							"raw": "{{URL}}/rsvp/6744ac2eb0750bb86e41fe1b",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"rsvp",
-								"67431608a0334566f0f399b7"
+								"6744ac2eb0750bb86e41fe1b"
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Manage Users",
+					"item": [
+						{
+							"name": "Create User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Test User\",\n    \"email\": \"taw5tasr@example.com\",\n    \"password\": \"123456\",\n    \"phone\": \"+123456789\",\n    \"role\": \"Admin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/admin/users",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/users/6744abcec8225051fa24a003",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										"6744abcec8225051fa24a003"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/users",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Ibrahim Dev\",\n    \"email\": \"ibrahim@example.com\",\n    \"role\": \"Organizer\",\n    \"phone\": \"+1234567890\",\n    \"isActive\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/admin/users/6744abcec8225051fa24a003",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										"6744abcec8225051fa24a003"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/users",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Manage Events",
+					"item": [
+						{
+							"name": "Create Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Startup Pitch Night\",\n    \"description\": \"Pitch your startup ideas to potential investors.\",\n    \"eventDateTime\": \"2024-11-25T18:00:00.000Z\",\n    \"location\": \"Innovation Hub\",\n    \"capacity\": 150,\n    \"ticketPricing\": 75,\n    \"registrationDeadline\": \"2024-11-20T23:59:59.000Z\",\n    \"categories\": [\n        \"Startup\",\n        \"Business\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/admin/events",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Event",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/events/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"events",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Event RSVPs",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/events/:id/rsvps",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"events",
+										":id",
+										"rsvps"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Events",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/events",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Event",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/events/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"events",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete event",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/events/67455bf13a0f5c88d6777a22",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"events",
+										"67455bf13a0f5c88d6777a22"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Manage RSVPs",
+					"item": [
+						{
+							"name": "Create RSVP",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Test User\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"123456\",\n  \"phone\": \"+123456789\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/admin/rsvp",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"rsvp"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get RSVP",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/rsvp/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"rsvp",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete RSVP",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/rsvp/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"rsvp",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			],
 			"auth": {
@@ -415,7 +961,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "{{TOKEN}}",
+						"value": "{{ADMIN_TOKEN}}",
 						"type": "string"
 					}
 				]
@@ -440,6 +986,36 @@
 					}
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
