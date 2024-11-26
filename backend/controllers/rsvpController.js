@@ -3,13 +3,14 @@ const RSVP = require("../models/rsvp")
 const createRSVP = async (req, res) => {
   const { eventID, RSVP_Status, attendeesCount } = req.body
   const userID = req.user?._id
+  const userRole = req.user.role
 
   if (!userID) {
     return res.status(401).json({ error: "Authentication required" })
   }
 
   const existingRSVP = await RSVP.findOne({ userID, eventID })
-  if (existingRSVP) {
+  if (existingRSVP && userRole !== "Admin") {
     return res
       .status(400)
       .json({ error: "User has already RSVP'd for this event" })
@@ -48,6 +49,7 @@ const getUserRSVP = async (req, res) => {
 const deleteUserRSVP = async (req, res) => {
   const { id } = req.params
   const userID = req.user?._id
+  const userRole = req.user.role
 
   if (!userID) {
     return res.status(401).json({ error: "Authentication required" })
@@ -58,7 +60,7 @@ const deleteUserRSVP = async (req, res) => {
     return res.status(404).json({ error: "RSVP not found" })
   }
 
-  if (rsvp.userID.toString() !== userID.toString()) {
+  if (rsvp.userID.toString() !== userID.toString() && userRole !== "Admin") {
     return res
       .status(403)
       .json({ error: "You are not authorized to delete this RSVP" })

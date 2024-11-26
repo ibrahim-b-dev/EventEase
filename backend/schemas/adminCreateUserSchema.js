@@ -1,6 +1,6 @@
-const Joi = require("joi")
+const Joi = require("joi");
 
-const registerSchema = Joi.object({
+const adminCreateUserSchema = Joi.object({
   name: Joi.string().min(3).required().messages({
     "string.base": "Name must be a string",
     "string.min": "Name must be at least 3 characters long",
@@ -26,10 +26,12 @@ const registerSchema = Joi.object({
       "string.base": "Phone must be a string",
     }),
 
-  role: Joi.string().valid("User", "Organizer").messages({
-git     "string.base": "Role must be a string",
-    "any.only": "Role must be either 'User' or 'Organizer'",
+  role: Joi.string().valid("User", "Organizer", "Admin").required().messages({
+    "string.base": "Role must be a string",
+    "any.only": "Role must be either 'User', 'Organizer' or 'Admin'",
   }),
+
+  isActive: Joi.bool().optional().messages({})
 })
 
-module.exports = registerSchema
+module.exports = adminCreateUserSchema

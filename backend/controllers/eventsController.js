@@ -90,6 +90,7 @@ const getEventRSVPs = async (req, res) => {
 const updateEvent = async (req, res) => {
   const { id } = req.params
   const userId = req.user.id
+  const userRole = req.user.role
   const updates = req.body
 
   const event = await Event.findById(id)
@@ -98,7 +99,7 @@ const updateEvent = async (req, res) => {
     return res.status(404).json({ error: "Event not found" })
   }
 
-  if (event.organizerID.toString() !== userId) {
+  if (event.organizerID.toString() !== userId && userRole !== "Admin") {
     return res
       .status(403)
       .json({ error: "You are not authorized to update this event" })
@@ -115,13 +116,14 @@ const updateEvent = async (req, res) => {
 const deleteEvent = async (req, res) => {
   const { id } = req.params
   const userId = req.user.id
+  const userRole = req.user.role
   const event = await Event.findById(id)
 
   if (!event) {
     return res.status(404).json({ error: "Event not found" })
   }
 
-  if (event.organizerID.toString() !== userId) {
+  if (event.organizerID.toString() !== userId && userRole !== "Admin") {
     return res
       .status(403)
       .json({ error: "You are not authorized to delete this event" })

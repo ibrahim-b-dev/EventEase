@@ -1,51 +1,69 @@
-const adminRouter = require("express").Router();
+const adminRouter = require("express").Router()
 const {
   createUser,
   getUser,
   getAllUsers,
   updateUser,
   deleteUser,
-  createEvent,
-  getEvent,
+} = require("../controllers/adminController")
+const {
+  addEvent,
   getAllEvents,
+  getEvent,
   updateEvent,
   deleteEvent,
-  createRsvp,
-  getRsvp,
-  getAllRsvps,
-  updateRsvp,
-  deleteRsvp,
-} = require("../controllers/adminController");
-const { checkRoles } = require("../middlewares");
+  getEventRSVPs,
+} = require("../controllers/eventsController")
+const {
+  getUserRSVP,
+  createRSVP,
+  deleteUserRSVP,
+} = require("../controllers/rsvpController")
+const { checkRoles } = require("../middlewares")
+const { validateRequest } = require("../middlewares/validators")
+const {
+  adminCreateUserSchema,
+  addEventSchema,
+  getAllEventsSchema,
+  createRSVPSchema,
+} = require("../schemas")
+const adminUpdateUserSchema = require("../schemas/adminUpdateUserSchema")
 
-// Role-based middleware
-adminRouter.use(checkRoles("Admin"));
+adminRouter.use(checkRoles("Admin"))
 
 // User management routes
-adminRouter.route("/users/manage")
+adminRouter
+  .route("/users")
+  .post(validateRequest(adminCreateUserSchema), createUser)
   .get(getAllUsers)
-  .post(createUser);
-adminRouter.route("/users/manage/:id")
+
+adminRouter
+  .route("/users/:id")
   .get(getUser)
-  .put(updateUser)
-  .delete(deleteUser);
+  .put(validateRequest(adminUpdateUserSchema), updateUser)
+  .delete(deleteUser)
+// .delete(checkRoles("SuperAdmin"), deleteUser)
 
 // Event management routes
-adminRouter.route("/events/manage")
-  .get(getAllEvents)
-  .post(createEvent);
-adminRouter.route("/events/manage/:id")
+adminRouter
+  .route("/events")
+  .post(validateRequest(addEventSchema), addEvent)
+  .get(validateRequest(getAllEventsSchema), getAllEvents)
+
+adminRouter
+  .route("/events/:id")
   .get(getEvent)
-  .put(updateEvent)
-  .delete(deleteEvent);
+  .put(validateRequest(addEventSchema), updateEvent)
+  .delete(deleteEvent)
+
+adminRouter.route("/events/:id/rsvps").get(getEventRSVPs)
 
 // RSVP management routes
-adminRouter.route("/rsvp/manage")
-  .get(getAllRsvps)
-  .post(createRsvp);
-adminRouter.route("/rsvp/manage/:id")
-  .get(getRsvp)
-  .put(updateRsvp)
-  .delete(deleteRsvp);
+adminRouter
+  .route("/rsvp")
+  .post(validateRequest(createRSVPSchema), createRSVP)
+  .get(getUserRSVP)
 
-module.exports = adminRouter;
+adminRouter.route("/rsvp/:id").delete(deleteUserRSVP)
+
+module.exports = adminRouter
