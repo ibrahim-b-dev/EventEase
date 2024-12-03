@@ -1,9 +1,9 @@
-import Hero from "./components/Hero"
+import PopularEvents from "./components/PopularEvents"
 
 const App = () => {
   return (
     <>
-      <Hero />
+      <PopularEvents />
     </>
   )
 }
