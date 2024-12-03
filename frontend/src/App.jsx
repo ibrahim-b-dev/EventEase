@@ -1,9 +1,9 @@
-import PopularEvents from "./components/PopularEvents"
+import LandingPage  from "./pages/LandingPage"
 
 const App = () => {
   return (
     <>
-      <PopularEvents />
+      <LandingPage />
     </>
   )
 }
