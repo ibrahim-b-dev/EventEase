@@ -3,8 +3,7 @@ import Input from "../components/Input"
 import Button from "../components/Button"
 import { Search } from "lucide-react"
 
-// import heroImg from "../assets/hero.webp"
-import heroImg from "../assets/hero3.webp"
+import eventBackground from "../assets/event-background.jpeg"
 
 const HeroContainer = styled.section`
   position: relative;
@@ -27,9 +26,8 @@ const Background = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: url(${heroImg}) no-repeat top left;
+  background: url(${eventBackground}) no-repeat top left;
   background-size: 100% 100%;
-  filter: blur(1px);
   z-index: -1;
 `
 
@@ -43,13 +41,15 @@ const Title = styled.h1`
   font-weight: 900;
   line-height: 60px;
   z-index: 1;
+  color: #000080;
 `
 const Subtitle = styled.h2`
   margin-bottom: 15px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 300;
   line-height: 24px;
   z-index: 1;
+  color: #000080;
 `
 const InputContainer = styled.div`
   display: flex;
