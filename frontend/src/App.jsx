@@ -1,7 +1,8 @@
+import { Route, Routes } from "react-router-dom"
 import styled from "styled-components"
-import Header from "./layouts/Header"
-import SideBar from "./layouts/Sidebar"
-import Main from "./layouts/Main"
+
+import LandingPage from "./pages/LandingPage"
+import AppPage from "./pages/AppPage"
 
 const Container = styled.div`
   width: 100%;
@@ -11,30 +12,13 @@ const Container = styled.div`
   background-color: #f9fcf7;
 `
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: #f9fcf7;
-  margin-top: 5em;
-
-  & > * {
-    padding: 0.6em;
-  }
-
-  @media (min-width: 600px) {
-    flex-direction: row;
-  }
-`
-
 const App = () => {
   return (
     <Container>
-      <Header />
-
-      <Wrapper>
-        <SideBar />
-        <Main />
-      </Wrapper>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/app/*" element={<AppPage />} />
+      </Routes>
     </Container>
   )
 }

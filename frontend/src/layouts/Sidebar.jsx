@@ -9,6 +9,7 @@ import {
   LogOut,
   User,
 } from "lucide-react"
+import { Link } from "react-router-dom"
 
 const SidebarContainer = styled.aside`
   display: flex;
@@ -63,7 +64,7 @@ const StyledNavItem = styled.button`
   flex: 1;
 
   &:hover {
-    background-color: #EAF1EA;
+    background-color: #eaf1ea;
   }
 
   @media (min-width: 600px) {
@@ -84,50 +85,62 @@ const SideBar = () => {
   const navItems = [
     {
       name: "Dashboard",
+      url: "/dashboard",
       icon: Home,
     },
     {
       name: "Events",
+      url: "/events",
       icon: Calendar,
     },
     {
       name: "Users",
+      url: "/users",
       icon: User,
     },
     {
       name: "RSVPs",
+      url: "/rsvps",
       icon: ClipboardCheck,
     },
     {
       name: "Analytics",
+      url: "/analytics",
       icon: PieChart,
     },
     {
       name: "Settings",
+      url: "/settings",
       icon: Settings,
     },
     {
       name: "Logout",
+      url: "",
       icon: LogOut,
     },
   ]
 
   return (
     <SidebarContainer>
-      {/* <StyledHeader>
+      <StyledHeader>
         <Logo>Admin</Logo>
-      </StyledHeader> */}
+      </StyledHeader>
 
       <StyledNav>
-        {navItems.map(({ name, icon: Icon }) => {
+        {navItems.map(({ name, url, icon: Icon }) => {
           const isActive = name.toLowerCase() === activeTab
           const itemClassName = isActive ? "active" : ""
 
           return (
-            <StyledNavItem key={name} onClick={() => setActiveTab(name.toLowerCase())}>
-              <Icon />
-              <Label>{name}</Label>
-            </StyledNavItem>
+            <Link to={url}>
+              <StyledNavItem
+                key={name}
+                onClick={() => setActiveTab(name.toLowerCase())}
+              >
+                <Icon />
+                <Label>{name}</Label>
+              </StyledNavItem>
+            </Link>
           )
         })}
       </StyledNav>
