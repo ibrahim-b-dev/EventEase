@@ -15,8 +15,7 @@ const StyledButton = styled.button`
 
   width: ${(props) => (props.width ? props.width : "auto")};
   color: ${(props) => (props.color ? props.color : "#0D1C0D")};
-  /* background-color: ${(props) => (props.bgcolor ? props.bgcolor : "#1AE51A")}; */
-  background-color: ${(props) => (props.bgcolor ? props.bgcolor : "transparent")};
+  background-color: ${(props) => (props.bgcolor ? props.bgcolor : "#1AE51A")};
 
   &:hover {
     background-color: #17cc17;

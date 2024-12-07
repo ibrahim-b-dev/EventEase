@@ -14,13 +14,12 @@ const HeroContainer = styled.section`
 
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   align-items: center;
-  border-radius: 12px;
+  border-radius: 0 0 12px 12px;
 `
 
 const Background = styled.div`
-  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -28,19 +27,22 @@ const Background = styled.div`
   height: 100%;
   background: url(${eventBackground}) no-repeat top left;
   background-size: 100% 100%;
-  z-index: -1;
+  z-index: 0;
+  display: hidden;
 `
 
 const TitleContainer = styled.div`
   margin-bottom: 1rem;
   padding-right: 10px;
+  position: relative;
+  z-index: 2;
 `
 
 const Title = styled.h1`
   font-size: 3.2rem;
   font-weight: 900;
   line-height: 60px;
-  z-index: 1;
+  z-index: 2;
   color: #000080;
 `
 const Subtitle = styled.h2`
@@ -58,11 +60,9 @@ const InputContainer = styled.div`
   background-color: #fff;
   border-radius: 12px;
   max-width: 27.5rem;
+`
 
-`
-const StyledInput = styled(Input)`
-  /* border: 1px solid red; */
-`
+const StyledInput = styled(Input)``
 
 const Main = () => {
   return (
