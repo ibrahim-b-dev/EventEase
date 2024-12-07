@@ -1,14 +1,18 @@
 import { Bell, Database, Search } from "lucide-react"
 import styled from "styled-components"
-import Button from "./Button"
+import Button from "../components/Button"
 
 const Container = styled.header`
-  background-color: "#F5FCF6";
+  background-color: #F9FCF7;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.1rem 2rem;
-  border-bottom: 1px solid #E3E9E8;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
 `
 
 const LogoWrapper = styled.div`
@@ -25,7 +29,6 @@ const Logo = styled.h1`
 const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 10px;
   margin: 0.5rem 0;
 `
