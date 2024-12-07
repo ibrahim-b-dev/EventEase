@@ -1,6 +1,7 @@
 const express = require("express")
 require("express-async-errors")
 const connectToDataBase = require("./database/connect")
+const cors = require("cors")
 const { validateToken } = require("./middlewares")
 const authRouter = require("./routes/authRoutes")
 const usersRouter = require("./routes/userRoutes")
@@ -9,6 +10,7 @@ const rsvpRouter = require("./routes/rsvpRoutes")
 const adminRouter = require("./routes/adminRrouter")
 const middleware = require("./middlewares/index")
 const logger = require("./utils/logger")
+const openRouter = require("./routes/publicRoutes")
 
 const app = express()
 connectToDataBase()
@@ -17,11 +19,13 @@ app.get("/", (request, response) => {
   response.send("hello world")
 })
 
+app.use(cors())
 app.use(express.json())
 app.use(logger.requestIdLogger)
 app.use(logger.morganLogger)
 app.use(logger.requestTimingLogger)
 
+app.use("/api/public", openRouter) // open public routes
 app.use("/api/auth", authRouter)
 app.use("/api/users", validateToken, usersRouter)
 app.use("/api/events", validateToken, eventsRouter)

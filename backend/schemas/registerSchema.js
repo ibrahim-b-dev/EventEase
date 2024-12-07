@@ -27,7 +27,7 @@ const registerSchema = Joi.object({
     }),
 
   role: Joi.string().valid("User", "Organizer").messages({
-git     "string.base": "Role must be a string",
+    "string.base": "Role must be a string",
     "any.only": "Role must be either 'User' or 'Organizer'",
   }),
 })

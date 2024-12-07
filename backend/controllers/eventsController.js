@@ -56,6 +56,31 @@ const getAllEvents = async (req, res) => {
   res.status(200).json(events)
 }
 
+const getPopularEvents = async (req, res) => {
+  const { startDate, endDate, location, sortBy, order } = req.query
+  const filters = {}
+
+  if (startDate || endDate) {
+    filters.eventDateTime = {}
+    if (startDate) filters.eventDateTime.$gte = new Date(startDate)
+    if (endDate) filters.eventDateTime.$lte = new Date(endDate)
+  }
+
+  if (location) {
+    filters.location = { $regex: new RegExp(location, "i") }
+  }
+
+  const sortOrder = order === "desc" ? -1 : 1
+
+  const events = await Event.find(filters)
+    .populate("organizerID", "name email")
+    .populate("popularity")
+    .sort({ [sortBy]: sortOrder })
+    .exec()
+
+  res.status(200).json(events)
+}
+
 const getEvent = async (req, res) => {
   const { id } = req.params
   const event = await Event.findById(id).populate("organizerID", "name email")
@@ -137,6 +162,7 @@ const deleteEvent = async (req, res) => {
 module.exports = {
   addEvent,
   getAllEvents,
+  getPopularEvents,
   getEvent,
   getEventRSVPs,
   updateEvent,
