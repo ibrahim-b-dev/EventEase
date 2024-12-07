@@ -1,9 +1,10 @@
 import styled from "styled-components"
-import Header from "../components/Header"
+
 import Hero from "../components/Hero"
 import PopularEvents from "../components/PopularEvents"
 import Features from "../components/Features"
 import CTA from "../components/CTA"
+import SimpleHeader from "../layouts/SimpleHeader"
 
 const Container = styled.div`
   max-width: 900px;
@@ -12,15 +13,13 @@ const Container = styled.div`
 
 const LandingPage = () => {
   return (
-    <>
-      <Header />
-      <Container>
-        <Hero />
-        <PopularEvents />
-        <Features />
-        <CTA />
-      </Container>
-    </>
+    <Container>
+      <SimpleHeader />
+      <Hero />
+      <PopularEvents />
+      <Features />
+      <CTA />
+    </Container>
   )
 }
 
