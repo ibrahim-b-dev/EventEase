@@ -1,40 +1,57 @@
+import { useEffect, useState } from "react"
 import styled from "styled-components"
 import Button from "./Button"
 import eventBackground from "../assets/hero3.webp"
+import { getPopularEvents } from "../services/popular"
 
 const Container = styled.section`
   padding: 1rem;
 `
 
-const TitleContainer = styled.div``
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  @media (min-width: 400px) {
+    align-items: flex-start;
+  }
+`
 
 const Title = styled.h3`
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 0.5em;
+  
+  @media (min-width: 600px) {
+    font-size: 2rem;
+  }
 `
 
 const CardContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   margin: 1em 0;
-  gap: 10px;
   justify-content: space-between;
 `
 
 const Card = styled.div`
+  padding: 2%;
+  flex: 1 46%;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: calc(33.33% - 10px);
-  max-width: 300px;
-  overflow: hidden;
   cursor: pointer;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  
+
   &:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     transform: translateY(-5px);
+  }
+
+  @media (min-width: 600px) {
+    flex: 1 32%;
   }
 `
 
@@ -86,10 +103,28 @@ const PopularEvents = () => {
     },
   ]
 
+  const [popular, setPopular] = useState([])
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchPopular = async () => {
+      try {
+        const events = await getPopularEvents()
+
+        setPopular(events)
+      } catch (error) {
+        setError(error)
+        console.error(error)
+      }
+    }
+
+    fetchPopular()
+  }, [])
+
   return (
     <Container>
       <TitleContainer>
-        <Title>Popular event categories</Title>
+        <Title>Popular events</Title>
         <Button label="view all popular categories" />
       </TitleContainer>
 

@@ -9,14 +9,18 @@ const HeroContainer = styled.section`
   position: relative;
   width: 100%;
   margin: 1.5rem 0;
+  /* padding: 1.5rem; */
   height: 480px;
-  overflow: hidden;
 
   display: flex;
   flex-direction: column;
   /* justify-content: flex-end; */
   align-items: center;
   border-radius: 0 0 12px 12px;
+
+  @media (min-width: 400px) {
+    padding: 1.5rem;
+  }
 `
 
 const Background = styled.div`
@@ -31,19 +35,31 @@ const Background = styled.div`
   display: hidden;
 `
 
-const TitleContainer = styled.div`
+const Hero = styled.div`
   margin-bottom: 1rem;
-  padding-right: 10px;
+  /* padding: 1.5rem; */
+  padding: 1.5rem 0.5rem;
   position: relative;
   z-index: 2;
+  @media (min-width: 400px) {
+    /* padding: 5rem 0; */
+  }
 `
 
 const Title = styled.h1`
-  font-size: 3.2rem;
+  font-size: 1.2rem;
   font-weight: 900;
   line-height: 60px;
   z-index: 2;
   color: #000080;
+
+  @media (min-width: 400px) {
+    font-size: 2rem;
+  }
+
+  @media (min-width: 600px) {
+    font-size: 3.2rem;
+  }
 `
 const Subtitle = styled.h2`
   margin-bottom: 15px;
@@ -55,20 +71,46 @@ const Subtitle = styled.h2`
 `
 const InputContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  width: 90%;
   gap: 10px;
   padding: 0.8em;
   background-color: #fff;
   border-radius: 12px;
-  max-width: 27.5rem;
+  width: 100%;
+  max-width: 30rem;
+  border: 1px solid blue;
+
+  @media (min-width: 400px) {
+    flex-direction: row;
+  }
 `
 
-const StyledInput = styled(Input)``
+const StyledInput = styled(Input)`
+  flex: 1;
+
+  @media (min-width: 400px) {
+    min-width: 160px;
+    flex-grow: 3;
+    /* flex: 3 1 160px; */
+  }
+`
+
+const StyledButton = styled(Button)`
+  flex: 1;
+
+  @media (min-width: 400px) {
+    min-width: 70px;
+    flex-grow: 2;
+    /* flex: 2 1 70px; */
+  }
+`
 
 const Main = () => {
   return (
     <HeroContainer>
       <Background />
-      <TitleContainer>
+      <Hero>
         <Title>Discover events you love</Title>
         <Subtitle>
           Explore events from music festivals to marathons, and sign up for
@@ -77,9 +119,9 @@ const Main = () => {
 
         <InputContainer>
           <StyledInput placeholder="serach for events" Icon={Search} />
-          <Button label="Find an event" />
+          <StyledButton label="Find an event" />
         </InputContainer>
-      </TitleContainer>
+      </Hero>
     </HeroContainer>
   )
 }

@@ -1,5 +1,11 @@
 import styled from "styled-components"
-import { Calendar, CreditCard, Globe, MessageCircle, PieChart } from "lucide-react"
+import {
+  Calendar,
+  CreditCard,
+  Globe,
+  MessageCircle,
+  PieChart,
+} from "lucide-react"
 
 const Container = styled.section`
   padding: 1rem;
@@ -7,20 +13,28 @@ const Container = styled.section`
 
 const CardContainer = styled.div`
   display: flex;
+  flex-direction: column;
   margin: 1em 0;
   gap: 10px;
   justify-content: space-between;
-  flex-wrap: wrap;
+  align-items: center;
+
+  @media (min-width: 400px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
 `
 
 const Card = styled.div`
+  flex: 1 100%;
   padding: 0.8em;
-  border: 1px solid #E9F0E9;
+  border: 1px solid #e9f0e9;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
+
   gap: 0.5rem;
-  width: calc(33.33% - 10px);
   max-width: 300px;
   overflow: hidden;
   cursor: pointer;
@@ -28,7 +42,14 @@ const Card = styled.div`
 
   &:hover {
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
-    /* transform: translateY(-5px); */
+  }
+
+  @media (min-width: 400px) {
+    flex: 1 46%;
+  }
+
+  @media (min-width: 600px) {
+    flex: 1 30%;
   }
 `
 
@@ -41,7 +62,7 @@ const Description = styled.div`
   font-size: 0.8rem;
   font-weight: 300;
   color: #4f964f;
-  `
+`
 
 const Title = styled.h3`
   font-size: 1.3rem;

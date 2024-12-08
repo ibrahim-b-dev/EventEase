@@ -3,21 +3,18 @@ import { Database } from "lucide-react"
 import Button from "../components/Button"
 
 const Container = styled.header`
-  background-color: #FDFDFD;
-  background-color: #f9fcf7;
   background-color: rgba(249, 252, 247, 0.9);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.1rem 2rem;
-  /* position: fixed; */
-  top: 0;
+  padding: 0.4rem;
   width: 100%;
-  /* height: 150px; */
   max-width: 900px;
   margin: 0 auto;
-  /* z-index: 9; */
-  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04); */
+
+  @media (min-width: 600px) {
+    padding: 1rem;
+  }
 `
 
 const LogoWrapper = styled.div`
