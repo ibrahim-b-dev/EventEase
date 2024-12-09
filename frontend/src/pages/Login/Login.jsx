@@ -1,4 +1,7 @@
 import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { login } from "../../reducers/authReducer"
+import { useField } from "../../hooks"
 import {
   Container,
   Title,
@@ -11,13 +14,13 @@ import {
   InfoContainer,
   Link,
 } from "./Login.styled"
-import { useField } from "../../hooks"
 
 const Login = () => {
-  const username = useField("text")
+  const dispatch = useDispatch()
+
+  const email = useField("email")
   const password = useField("password")
   const [keepSignedIn, setKeepSignedIn] = useState(false)
-
 
   const handleCheckboxChange = (event) => {
     setKeepSignedIn(event.target.checked)
@@ -25,7 +28,12 @@ const Login = () => {
 
   const handleLogin = (event) => {
     event.preventDefault()
-    console.log("Login")
+    const credentials = {
+      email: email.value,
+      password: password.value
+    }
+
+    dispatch(login(credentials))
   }
 
   return (
@@ -33,13 +41,15 @@ const Login = () => {
       <Title>Log in to EventEase</Title>
       <form onSubmit={handleLogin}>
         <InputContainer>
-          <Label>Username</Label>
+          <Label>Email</Label>
           <StyledInput
-            placeholder="Enter your username"
+            placeholder="Enter your email"
             placeholdercolor="#17cc17"
             color="#000"
             bgcolor="#E8F3E5"
-            {...username}
+            minLength="6"
+            maxLength="25"
+            {...email}
           />
         </InputContainer>
 
@@ -50,6 +60,7 @@ const Login = () => {
             placeholdercolor="#17cc17"
             bgcolor="#E8F3E5"
             {...password}
+            minLength="6"
           />
         </InputContainer>
 
