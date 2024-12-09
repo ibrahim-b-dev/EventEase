@@ -1,6 +1,6 @@
 import { Bell, Database, Search } from "lucide-react"
 import styled from "styled-components"
-import Button from "../components/Button"
+import Button from "../../components/Button"
 
 const Container = styled.header`
   background-color: #F9FCF7;

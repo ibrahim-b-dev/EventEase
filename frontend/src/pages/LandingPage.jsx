@@ -1,10 +1,10 @@
 import styled from "styled-components"
 
+import SimpleHeader from "../layouts/Header/SimpleHeader"
 import Hero from "../components/Hero"
 import PopularEvents from "../components/PopularEvents"
 import Features from "../components/Features"
 import CTA from "../components/CTA"
-import SimpleHeader from "../layouts/SimpleHeader"
 
 const Container = styled.div`
   max-width: 900px;

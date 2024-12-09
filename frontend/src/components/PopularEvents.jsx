@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 import Button from "./Button"
-import eventBackground from "../assets/hero3.webp"
 import { getPopularEvents } from "../services/popular"
+import eventBackground from "../assets/hero3.webp"
 
 const Container = styled.section`
   padding: 1rem;
