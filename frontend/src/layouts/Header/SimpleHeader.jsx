@@ -12,7 +12,6 @@ const SimpleHeader = () => {
   const navigate = useNavigate()
 
   const handleClick = () => {
-    console.log("login")
     navigate("/app/login")
   }
 
