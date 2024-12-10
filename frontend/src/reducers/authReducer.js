@@ -54,6 +54,7 @@ export const {
   loginStart,
   loginFailure,
   loginSuccess,
+  logout: log_out,
   registerStart,
   registerFailure,
   registerSuccess,
@@ -65,11 +66,16 @@ export const login = (credentials) => {
 
     try {
       const data = await loginService.login(credentials)
-      console.log(response)
       dispatch(loginSuccess({ user: data.user, token: data.token }))
     } catch (error) {
-      dispatch(loginFailure(error.message))
+      dispatch(loginFailure(error?.response?.data?.error || "Unknown error"));
     }
+  }
+}
+
+export const logout = () => {
+  return async (dispatch) => {
+    dispatch(log_out())
   }
 }
 

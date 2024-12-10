@@ -1,5 +1,8 @@
-import { useState } from "react"
-import { useDispatch } from "react-redux"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { useNotifications } from "reapop"
+
 import { login } from "../../reducers/authReducer"
 import { useField } from "../../hooks"
 import {
@@ -16,11 +19,36 @@ import {
 } from "./Login.styled"
 
 const Login = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { notify } = useNotifications()
+  const { isLoggedIn, error } = useSelector((state) => state.auth)
 
   const email = useField("email")
   const password = useField("password")
   const [keepSignedIn, setKeepSignedIn] = useState(false)
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      notify({
+        title: "Login Successful",
+        message: `Welcome, ${email.value}!`,
+        status: "success",
+        dismissAfter: 1000,
+      })
+
+      navigate("/app/dashboard")
+    }
+
+    if (error) {
+      notify({
+        title: "Login Failed",
+        message: error || "Unable to log in. Please try again.",
+        status: "error",
+        dismissAfter: 1000,
+      })
+    }
+  }, [isLoggedIn, error, dispatch])
 
   const handleCheckboxChange = (event) => {
     setKeepSignedIn(event.target.checked)
@@ -30,7 +58,7 @@ const Login = () => {
     event.preventDefault()
     const credentials = {
       email: email.value,
-      password: password.value
+      password: password.value,
     }
 
     dispatch(login(credentials))

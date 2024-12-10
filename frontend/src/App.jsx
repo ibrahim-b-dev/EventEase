@@ -3,6 +3,7 @@ import styled from "styled-components"
 
 import LandingPage from "./pages/LandingPage"
 import AppPage from "./pages/AppPage"
+import TopLevelNotification from "./components/TopLevelNotification"
 
 const Container = styled.div`
   width: 100%;
@@ -15,6 +16,8 @@ const Container = styled.div`
 const App = () => {
   return (
     <Container>
+      <TopLevelNotification />
+
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/app/*" element={<AppPage />} />
