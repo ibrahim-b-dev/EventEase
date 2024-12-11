@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import Button from "../../components/Button"
 import {
   Header,
@@ -10,6 +10,11 @@ import {
 
 const PublicHeader = () => {
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const isOnRoute = location.pathname === "/"
+  const isOnLoginPage = location.pathname === "/login"
+  const isOnSignupPage = location.pathname === "/signup"
 
   const handleClickLogin = () => {
     navigate("/login")
@@ -26,8 +31,16 @@ const PublicHeader = () => {
         <Logo>EventEase</Logo>
       </LogoWrapper>
       <InfoWrapper>
-        <Button label="Login" onClick={handleClickLogin} />
-        <Button label="Signup" onClick={handleClickSignup} />
+        {isOnLoginPage ? (
+          <Button label="Signup" onClick={handleClickSignup} />
+        ) : isOnSignupPage ? (
+          <Button label="Login" onClick={handleClickLogin} />
+        ) : (
+          <>
+            <Button label="Login" onClick={handleClickLogin} />
+            <Button label="Signup" onClick={handleClickSignup} />
+          </>
+        )}
       </InfoWrapper>
     </Header>
   )

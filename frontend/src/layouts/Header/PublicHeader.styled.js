@@ -5,10 +5,10 @@ export const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.4rem;
+  padding: 1rem 0;
   
   @media (min-width: ${(props) => props.theme.breakpoints.sm}) {
-    padding: 1rem;
+    
   }
 `
 
