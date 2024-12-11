@@ -6,9 +6,9 @@ import {
   DatabaseIcon,
   Logo,
   InfoWrapper,
-} from "./SimpleHeader.styled"
+} from "./PublicHeader.styled"
 
-const SimpleHeader = () => {
+const PublicHeader = () => {
   const navigate = useNavigate()
 
   const handleClick = () => {
@@ -28,4 +28,4 @@ const SimpleHeader = () => {
   )
 }
 
-export default SimpleHeader
+export default PublicHeader

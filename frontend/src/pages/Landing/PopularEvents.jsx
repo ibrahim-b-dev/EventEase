@@ -49,11 +49,9 @@ const PopularEvents = () => {
     const fetchPopular = async () => {
       try {
         const events = await getPopularEvents()
-
         setPopular(events)
       } catch (error) {
         setError(error)
-        console.error(error)
       }
     }
 
@@ -68,7 +66,7 @@ const PopularEvents = () => {
       </TitleContainer>
 
       <CardContainer>
-        {events.map(({ id, name, description }) => (
+        {popular.map(({ id, name, description }) => (
           <Card key={id}>
             <Background src={eventBackground} />
             <Name>{name}</Name>
