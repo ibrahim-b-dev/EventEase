@@ -28,7 +28,8 @@ const register = async (req, res) => {
 
   res
     .status(201)
-    .json({ message: "User registered successfully", id: newUser._id })
+  await newUser.save()
+    .json({ message: "User registered successfully", user: newUser })
 }
 
 const login = async (req, res) => {
@@ -39,14 +40,17 @@ const login = async (req, res) => {
   }
 
   const user = await User.findOne({ email })
+    .populate()
+    .select("-createdAt -updatedAt")
+
   if (!user) {
     return res.status(401).json({ error: "Invalid email or password" })
   }
 
-  const isMatch = await user.comparePassword(password)  
+  const isMatch = await user.comparePassword(password)
   if (isMatch) {
     const token = signToken({ id: user._id, email: user.email })
-    return res.status(200).json({ message: "Login successful", token })
+    return res.status(200).json({ message: "Login successful", token, user })
   } else {
     return res.status(401).json({ error: "Invalid email or password" })
   }
