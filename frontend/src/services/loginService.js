@@ -1,13 +1,13 @@
 import client from "./client"
 
 const login = async (credentials) => {
-  const request = await client.post("/auth/login", credentials)
-  return request.data
+  const response = await client.post("/auth/login", credentials)
+  return response.data
 }
 
 const register = async (credentials) => {
-  const request = await client.post("/auth/register", credentials)
-  return request.data
+  const response = await client.post("/auth/register", credentials)
+  return response.data
 }
 
 export default { login, register }

@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit"
 import loginService from "../services/loginService"
 
 const initialState = {
-  user: null,
   isLoggedIn: false,
   token: null,
   loading: false,
@@ -20,18 +19,11 @@ const authSlice = createSlice({
     loginSuccess(state, action) {
       state.loading = false
       state.isLoggedIn = true
-      state.user = action.payload.user
       state.token = action.payload.token
     },
     loginFailure(state, action) {
       state.loading = false
       state.error = action.payload
-    },
-    logout(state) {
-      state.user = null
-      state.isLoggedIn = false
-      state.token = null
-      state.error = null
     },
     registerStart(state) {
       state.loading = true
@@ -39,7 +31,6 @@ const authSlice = createSlice({
     },
     registerSuccess(state, action) {
       state.loading = false
-      state.user = action.payload.user
       state.token = action.payload.token
       state.isLoggedIn = true
     },
@@ -54,7 +45,6 @@ export const {
   loginStart,
   loginFailure,
   loginSuccess,
-  logout: log_out,
   registerStart,
   registerFailure,
   registerSuccess,
@@ -70,12 +60,6 @@ export const login = (credentials) => {
     } catch (error) {
       dispatch(loginFailure(error?.response?.data?.error || "Unknown error"));
     }
-  }
-}
-
-export const logout = () => {
-  return async (dispatch) => {
-    dispatch(log_out())
   }
 }
 
