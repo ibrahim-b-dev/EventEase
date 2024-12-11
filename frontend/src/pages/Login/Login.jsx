@@ -5,23 +5,19 @@ import { useNotifications } from "reapop"
 
 import LoginForm from "../../components/forms/LoginForm"
 import { login } from "../../reducers/authReducer"
-import { useField } from "../../hooks"
 import { Container, Title, InfoContainer, Link } from "./Login.styled"
 
 const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { notify } = useNotifications()
-  const { isLoggedIn, error } = useSelector((state) => state.auth)
-
-  const email = useField("email")
-  const password = useField("password")
+  const { isLoggedIn, user, error } = useSelector((state) => state.auth)
 
   useEffect(() => {
     if (isLoggedIn) {
       notify({
         title: "Login Successful",
-        message: `Welcome, ${email.value}!`,
+        message: `Welcome, ${user.name}!`,
         status: "success",
         dismissAfter: 1000,
       })
