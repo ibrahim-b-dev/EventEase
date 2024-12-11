@@ -19,6 +19,7 @@ const StyledInput = styled.input`
   font-size: 1rem;
   color: inherit;
   margin-left: 0.5rem;
+  width: 100%;
 
   &::placeholder {
     color: ${(props) => props.placeholdercolor || "#a0a1a5"};
