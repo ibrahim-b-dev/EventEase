@@ -1,22 +1,12 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useNotifications } from "reapop"
 
+import LoginForm from "../../components/forms/LoginForm"
 import { login } from "../../reducers/authReducer"
 import { useField } from "../../hooks"
-import {
-  Container,
-  Title,
-  InputContainer,
-  Label,
-  StyledInput,
-  StyledButton,
-  CheckBoxContainer,
-  CheckNote,
-  InfoContainer,
-  Link,
-} from "./Login.styled"
+import { Container, Title, InfoContainer, Link } from "./Login.styled"
 
 const Login = () => {
   const navigate = useNavigate()
@@ -26,7 +16,6 @@ const Login = () => {
 
   const email = useField("email")
   const password = useField("password")
-  const [keepSignedIn, setKeepSignedIn] = useState(false)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -50,63 +39,18 @@ const Login = () => {
     }
   }, [isLoggedIn, error, dispatch])
 
-  const handleCheckboxChange = (event) => {
-    setKeepSignedIn(event.target.checked)
-  }
-
-  const handleLogin = (event) => {
-    event.preventDefault()
-    const credentials = {
-      email: email.value,
-      password: password.value,
-    }
-
+  const handleLogin = (credentials) => {
     dispatch(login(credentials))
   }
 
   return (
     <Container>
       <Title>Log in to EventEase</Title>
-      <form onSubmit={handleLogin}>
-        <InputContainer>
-          <Label>Email</Label>
-          <StyledInput
-            placeholder="Enter your email"
-            placeholdercolor="#17cc17"
-            color="#000"
-            bgcolor="#E8F3E5"
-            minLength="6"
-            maxLength="25"
-            {...email}
-          />
-        </InputContainer>
-
-        <InputContainer>
-          <Label>Password</Label>
-          <StyledInput
-            placeholder="Enter your password"
-            placeholdercolor="#17cc17"
-            bgcolor="#E8F3E5"
-            {...password}
-            minLength="6"
-          />
-        </InputContainer>
-
-        <CheckBoxContainer>
-          <input
-            type="checkbox"
-            checked={keepSignedIn}
-            onChange={handleCheckboxChange}
-          />
-          <CheckNote>Keep me signed in</CheckNote>
-        </CheckBoxContainer>
-
-        <StyledButton label="Log in" />
-      </form>
+      <LoginForm onSubmit={handleLogin} />
 
       <InfoContainer>
-        <Link href="#">Forget your username or password?</Link>
-        <Link href="#">New to EventEase? Sign up now.</Link>
+        <Link href="/password-recovery">Forget your username or password?</Link>
+        <Link href="/signup">New to EventEase? Sign up now. </Link>
       </InfoContainer>
     </Container>
   )

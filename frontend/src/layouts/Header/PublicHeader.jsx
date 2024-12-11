@@ -11,8 +11,12 @@ import {
 const PublicHeader = () => {
   const navigate = useNavigate()
 
-  const handleClick = () => {
-    navigate("/app/login")
+  const handleClickLogin = () => {
+    navigate("/login")
+  }
+
+  const handleClickSignup = () => {
+    navigate("/signup")
   }
 
   return (
@@ -22,7 +26,8 @@ const PublicHeader = () => {
         <Logo>EventEase</Logo>
       </LogoWrapper>
       <InfoWrapper>
-        <Button label="Login" onClick={handleClick} />
+        <Button label="Login" onClick={handleClickLogin} />
+        <Button label="Signup" onClick={handleClickSignup} />
       </InfoWrapper>
     </Header>
   )
