@@ -1,20 +1,26 @@
-import { Route, Routes } from "react-router-dom"
+import { Provider } from "react-redux"
+import { ThemeProvider } from "styled-components"
+import { NotificationsProvider } from "reapop"
 
-import LandingPage from "./pages/LandingPage"
-import AppPage from "./pages/AppPage"
-import TopLevelNotification from "./components/TopLevelNotification"
 import { Container } from "./styles/styled"
+import TopLevelNotification from "./components/TopLevelNotification"
+import AppRoutes from "./routes/AppRoutes"
+import theme from "./styles/theme"
+import store from "./store"
 
 const App = () => {
   return (
-    <Container>
-      <TopLevelNotification />
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <NotificationsProvider>
+          <Container>
+            <TopLevelNotification />
 
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/app/*" element={<AppPage />} />
-      </Routes>
-    </Container>
+            <AppRoutes />
+          </Container>
+        </NotificationsProvider>
+      </ThemeProvider>
+    </Provider>
   )
 }
 
