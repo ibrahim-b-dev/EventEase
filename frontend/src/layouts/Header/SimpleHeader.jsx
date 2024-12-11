@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import Button from "../../components/Button"
 import {
-  Container,
+  Header,
   LogoWrapper,
   DatabaseIcon,
   Logo,
@@ -16,7 +16,7 @@ const SimpleHeader = () => {
   }
 
   return (
-    <Container>
+    <Header>
       <LogoWrapper>
         <DatabaseIcon size="1.1rem" />
         <Logo>EventEase</Logo>
@@ -24,7 +24,7 @@ const SimpleHeader = () => {
       <InfoWrapper>
         <Button label="Login" onClick={handleClick} />
       </InfoWrapper>
-    </Container>
+    </Header>
   )
 }
 

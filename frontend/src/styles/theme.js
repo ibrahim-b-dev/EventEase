@@ -13,10 +13,11 @@ const theme = {
     heading: "Inter, system-ui, sans-serif",
   },
   breakpoints: {
-    sm: "640px",
-    md: "768px",
-    lg: "1024px",
-    xl: "1280px",
+    xs: "320px", // extra small devices like older smartphones
+    sm: "480px", // small devices like modern smartphones
+    md: "768px", // medium devices like tablets
+    lg: "1024px", // large devices like small laptops
+    xl: "1200px", // extra large devices like desktops
   },
 }
 

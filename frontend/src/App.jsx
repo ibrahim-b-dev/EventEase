@@ -1,17 +1,9 @@
 import { Route, Routes } from "react-router-dom"
-import styled from "styled-components"
 
 import LandingPage from "./pages/LandingPage"
 import AppPage from "./pages/AppPage"
 import TopLevelNotification from "./components/TopLevelNotification"
-
-const Container = styled.div`
-  width: 100%;
-  max-width: 900px;
-  min-height: 100vh;
-  margin: 0 auto;
-  background-color: #f9fcf7;
-`
+import { Container } from "./styles/styled"
 
 const App = () => {
   return (

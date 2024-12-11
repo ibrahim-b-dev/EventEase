@@ -6,8 +6,8 @@ export const Container = styled.div`
   min-height: 100vh;
   margin: 0 auto;
   padding: 0 1rem;
-  /* background-color: "#f9fcf7"; */
   background-color: ${props => props.theme.colors.background};
+  border: 1px solid yellow;
 `
 
 export const Button = styled.button`
