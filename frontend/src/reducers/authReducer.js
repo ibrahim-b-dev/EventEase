@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
-import loginService from "../services/loginService"
+import authService from "../services/authService"
 
 const initialState = {
+  user: null,
   isLoggedIn: false,
   token: null,
   loading: false,
@@ -19,6 +20,7 @@ const authSlice = createSlice({
     loginSuccess(state, action) {
       state.loading = false
       state.isLoggedIn = true
+      state.user = action.payload.user
       state.token = action.payload.token
     },
     loginFailure(state, action) {
@@ -31,6 +33,7 @@ const authSlice = createSlice({
     },
     registerSuccess(state, action) {
       state.loading = false
+      state.user = action.payload.user
       state.token = action.payload.token
       state.isLoggedIn = true
     },
@@ -55,10 +58,23 @@ export const login = (credentials) => {
     dispatch(loginStart())
 
     try {
-      const data = await loginService.login(credentials)
+      const data = await authService.login(credentials)
       dispatch(loginSuccess({ user: data.user, token: data.token }))
     } catch (error) {
       dispatch(loginFailure(error?.response?.data?.error || "Unknown error"));
+    }
+  }
+}
+
+export const register = (userData) => {
+  return async (dispatch) => {
+    dispatch(registerStart())
+
+    try {
+      const data = await authService.register(userData)
+      dispatch(registerSuccess({ user: data.user, token: data.token }))
+    } catch (error) {
+      dispatch(registerFailure(error?.response?.data?.error || "Unknown error"));
     }
   }
 }
