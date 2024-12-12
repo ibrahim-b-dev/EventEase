@@ -12,6 +12,7 @@ import {
   Link,
   Label
 } from "./SignUp.styled"
+import BackButton from "../../components/BackButton"
 
 const SignUp = () => {
   const navigate = useNavigate()
@@ -47,6 +48,7 @@ const SignUp = () => {
 
   return (
     <Container>
+      <BackButton />
       <Title>Create Your Account</Title>
       <Label>
         Join EventEase and start creating unforgettable events

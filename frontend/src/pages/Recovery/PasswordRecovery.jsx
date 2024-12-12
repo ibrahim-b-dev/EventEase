@@ -3,12 +3,17 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useNotifications } from "reapop"
 
-import LoginForm from "../../components/forms/LoginForm"
-import { login } from "../../reducers/authReducer"
-import { Container, Title, InfoContainer, Link } from "./Login.styled"
+import {
+  Container,
+  Title,
+  InfoContainer,
+  Link,
+  Label,
+} from "./PasswordRecovery.styled"
+import PasswordRecoveryForm from "../../components/forms/PasswordRecoveryForm"
 import BackButton from "../../components/BackButton"
 
-const Login = () => {
+const PasswordRecovery = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { notify } = useNotifications()
@@ -36,22 +41,23 @@ const Login = () => {
     }
   }, [isLoggedIn, error, dispatch])
 
-  const handleLogin = (credentials) => {
-    dispatch(login(credentials))
+  const handleRecovery = () => {
+    console.log("recovery")
+    // dispatch(reset()) ... TODO
   }
 
   return (
     <Container>
-      <BackButton />
-      <Title>Log in to EventEase</Title>
-      <LoginForm onSubmit={handleLogin} />
+      <BackButton  />
+      <Title>Reset Your Password</Title>
+      <Label>Enter your email to receive a password reset link</Label>
+      <PasswordRecoveryForm onSubmit={handleRecovery} />
 
       <InfoContainer>
-        <Link href="/password-recovery">Forget your username or password?</Link>
-        <Link href="/signup">New to EventEase? Sign up now. </Link>
+        <Link href="/login">Remember your password? Log In</Link>
       </InfoContainer>
     </Container>
   )
 }
 
-export default Login
+export default PasswordRecovery

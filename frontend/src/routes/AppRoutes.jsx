@@ -1,11 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 import PublicLayout from "../layouts/PublicLayout"
 import LandingPage from "../pages/Landing/LandingPage"
+import SignUp from "../pages/SignUp/SignUp"
+import Login from "../pages/Login/Login"
+import PasswordRecovery from "../pages/Recovery/PasswordRecovery"
 
 const AppRoutes = () => {
-  const isAuthenticated = true // Replace with your auth state logic
-  const userRole = "organizer" // Example roles: organizer, attendee, admin
+  const { isLoggedIn, user } = useSelector((state) => state.auth)
+  const userRole = user?.role
+
+  console.log(isLoggedIn, user)
 
   return (
     <Router>
@@ -14,8 +20,8 @@ const AppRoutes = () => {
         <Route path="/" element={<PublicLayout />}>
           <Route index element={<LandingPage />} />
           <Route path="signup" element={<SignUp />} />
-          {/* <Route path="login" element={<Login />} /> */}
-          {/* <Route path="password-recovery" element={<PasswordRecovery />} /> */}
+          <Route path="login" element={<Login />} />
+          <Route path="password-recovery" element={<PasswordRecovery />} />
           {/* <Route path="events" element={<EventListings />} /> */}
           {/* <Route path="events/:id" element={<EventDetails />} /> */}
           {/* <Route path="*" element={<NotFound />} /> */}
