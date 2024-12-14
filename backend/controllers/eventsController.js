@@ -72,13 +72,21 @@ const getPopularEvents = async (req, res) => {
 
   const sortOrder = order === "desc" ? -1 : 1
 
-  const events = await Event.find(filters)
-    .populate("organizerID", "name email")
-    .populate("popularity")
-    .sort({ [sortBy]: sortOrder })
-    .exec()
+  try {
+    const events = await Event.find(filters)
+      .populate("organizerID", "name email")
+      .populate("popularity")
+      .sort({ [sortBy]: sortOrder })
+      .exec()
 
-  res.status(200).json(events)
+    const locations = await Event.distinct("location")
+    const dates = await Event.distinct("eventDateTime")
+    const categories = await Event.distinct("categories")
+
+    res.status(200).json({ events, locations, dates, categories })
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error })
+  }
 }
 
 const getEvent = async (req, res) => {
