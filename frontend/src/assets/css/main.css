@@ -4,23 +4,17 @@ Global Styles
 ========================================
 */
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-	font-size: 16px;
+  font-size: 16px;
 }
 
 body {
-	font: 300 16px/22px "Inter", sans-serif;
-	color: #0D1C0D;
-	background: #F5FCF6;
+  font: 300 16px/22px "Inter", sans-serif;
+  color: #0d1c0d;
+  background: #f5fcf6;
 }
-
-/*
-========================================
-Layout
-========================================
-*/

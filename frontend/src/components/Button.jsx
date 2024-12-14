@@ -11,7 +11,6 @@ const StyledButton = styled.button`
   border-radius: 12px;
   border: none;
   transition: background-color 0.3s ease;
-  cursor: pointer;
 
   width: ${(props) => (props.width ? props.width : "auto")};
   color: ${(props) => (props.color ? props.color : "#0D1C0D")};
