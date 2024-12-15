@@ -11,3 +11,15 @@ export const getPopularEvents = async () => {
     throw error
   }
 }
+
+export const getEventsMetadata = async () => {
+  try {
+    const response = await client.get(
+      "/public/popular-events-metadata"
+    )
+    return response.data
+  } catch (error) {
+    console.error("Error fetching events metadata:", error)
+    throw error
+  }
+}
