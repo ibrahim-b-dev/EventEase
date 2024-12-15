@@ -8,7 +8,6 @@ const { addEventSchema, getAllEventsSchema } = require("../schemas")
 const {
   addEvent,
   getAllEvents,
-  getPopularEvents,
   getEvent,
   getEventRSVPs,
   updateEvent,

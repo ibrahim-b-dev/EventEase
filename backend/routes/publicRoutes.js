@@ -1,6 +1,9 @@
 const { rateLimit } = require("express-rate-limit")
 const openRouter = require("express").Router()
-const { getPopularEvents } = require("../controllers/eventsController")
+const {
+  getPopularEvents,
+  getEventsMetadata,
+} = require("../controllers/eventsController")
 const { validateQuery } = require("../middlewares/validators")
 const { getAllEventsSchema } = require("../schemas")
 
@@ -17,5 +20,7 @@ openRouter.get(
   validateQuery(getAllEventsSchema),
   getPopularEvents
 )
+
+openRouter.get("/popular-events-metadata", getEventsMetadata)
 
 module.exports = openRouter

@@ -56,6 +56,40 @@ const getAllEvents = async (req, res) => {
   res.status(200).json(events)
 }
 
+const getEventsMetadata = async (req, res) => {
+  try {
+    const aggregationPipeline = [
+      {
+        $group: {
+          _id: null,
+          locations: { $addToSet: "$location" },
+          dates: { $addToSet: "$eventDateTime" },
+          categories: { $addToSet: "$categories" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          locations: 1,
+          dates: 1,
+          categories: 1,
+        },
+      },
+    ]
+
+    const results = await Event.aggregate(aggregationPipeline).exec()
+
+    if (results.length > 0) {
+      const { locations, dates, categories } = results[0]
+      res.status(200).json({ locations, dates, categories })
+    } else {
+      res.status(200).json({ locations: [], dates: [], categories: [] })
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error })
+  }
+}
+
 const getPopularEvents = async (req, res) => {
   const { startDate, endDate, location, sortBy, order } = req.query
   const filters = {}
@@ -79,11 +113,7 @@ const getPopularEvents = async (req, res) => {
       .sort({ [sortBy]: sortOrder })
       .exec()
 
-    const locations = await Event.distinct("location")
-    const dates = await Event.distinct("eventDateTime")
-    const categories = await Event.distinct("categories")
-
-    res.status(200).json({ events, locations, dates, categories })
+    res.status(200).json(events)
   } catch (error) {
     res.status(500).json({ message: "Server error", error })
   }
@@ -171,6 +201,7 @@ module.exports = {
   addEvent,
   getAllEvents,
   getPopularEvents,
+  getEventsMetadata,
   getEvent,
   getEventRSVPs,
   updateEvent,

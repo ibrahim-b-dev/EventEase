@@ -60,48 +60,224 @@ const seedDatabase = async () => {
 
     const eventsData = [
       {
-        title: "Tech Meetup",
-        description: "A meetup for tech enthusiasts.",
+        title: "Tech Innovators Meetup",
+        description: "Discuss the latest trends in tech innovation.",
         eventDateTime: new Date("2024-12-10T10:00:00.000Z"),
-        location: "City Hall",
-        organizerID: john._id,
-        capacity: 100,
-        ticketPricing: 50,
+        location: "Innovation Hub, San Francisco",
+        organizerID: ibrahim._id,
+        capacity: 200,
+        ticketPricing: 30,
         registrationDeadline: new Date("2024-12-01T23:59:59.000Z"),
         categories: ["Technology", "Networking"],
       },
       {
-        title: "Startup Pitch Night",
-        description: "Pitch your startup ideas to potential investors.",
-        eventDateTime: new Date("2024-11-25T18:00:00.000Z"),
-        location: "Innovation Hub",
-        organizerID: ibrahim._id,
+        title: "AI Future Summit",
+        description: "Exploring the future of AI and its implications.",
+        eventDateTime: new Date("2024-12-15T09:00:00.000Z"),
+        location: "Tech Plaza, Austin",
+        organizerID: john._id,
         capacity: 150,
-        ticketPricing: 75,
-        registrationDeadline: new Date("2024-11-20T23:59:59.000Z"),
-        categories: ["Startup", "Business"],
+        ticketPricing: 50,
+        registrationDeadline: new Date("2024-12-05T23:59:59.000Z"),
+        categories: ["Technology"],
       },
       {
-        title: "AI Workshop",
-        description: "Learn the basics of AI and machine learning.",
-        eventDateTime: new Date("2024-12-15T09:00:00.000Z"),
-        location: "Tech Center",
-        organizerID: john._id,
-        capacity: 50,
+        title: "Cloud Workshop",
+        description: "Learn how to build scalable cloud applications.",
+        eventDateTime: new Date("2024-12-20T14:00:00.000Z"),
+        location: "Cloud Center, Seattle",
+        organizerID: ibrahim._id,
+        capacity: 80,
         ticketPricing: 100,
         registrationDeadline: new Date("2024-12-10T23:59:59.000Z"),
-        categories: ["Artificial Intelligence", "Learning"],
+        categories: ["Technology"],
       },
       {
-        title: "Music Festival",
-        description: "A night of amazing performances.",
-        eventDateTime: new Date("2024-12-31T20:00:00.000Z"),
-        location: "Central Park",
-        organizerID: ibrahim._id,
-        capacity: 500,
-        ticketPricing: 150,
+        title: "Cybersecurity Awareness Day",
+        description: "Enhancing knowledge about cyber safety.",
+        eventDateTime: new Date("2024-12-25T11:00:00.000Z"),
+        location: "Tech Hall, New York",
+        organizerID: john._id,
+        capacity: 300,
+        ticketPricing: 0,
         registrationDeadline: new Date("2024-12-20T23:59:59.000Z"),
-        categories: ["Music", "Entertainment"],
+        categories: ["Technology"],
+      },
+      {
+        title: "Startup Founders Gathering",
+        description: "Networking with aspiring and successful founders.",
+        eventDateTime: new Date("2024-12-30T10:30:00.000Z"),
+        location: "Venture Center, Boston",
+        organizerID: ibrahim._id,
+        capacity: 120,
+        ticketPricing: 25,
+        registrationDeadline: new Date("2024-12-20T23:59:59.000Z"),
+        categories: ["Networking"],
+      },
+      {
+        title: "JavaScript Developers Workshop",
+        description: "Hands-on workshop for JavaScript enthusiasts.",
+        eventDateTime: new Date("2025-01-05T13:00:00.000Z"),
+        location: "Dev Hub, Los Angeles",
+        organizerID: john._id,
+        capacity: 100,
+        ticketPricing: 40,
+        registrationDeadline: new Date("2024-12-25T23:59:59.000Z"),
+        categories: ["Technology", "Networking"],
+      },
+      {
+        title: "SaaS Growth Hacking",
+        description: "Strategies to grow SaaS businesses effectively.",
+        eventDateTime: new Date("2025-01-10T08:00:00.000Z"),
+        location: "Growth Lab, Austin",
+        organizerID: ibrahim._id,
+        capacity: 100,
+        ticketPricing: 70,
+        registrationDeadline: new Date("2025-01-01T23:59:59.000Z"),
+        categories: ["Technology"],
+      },
+      {
+        title: "Women in Tech Conference",
+        description: "Highlighting achievements and fostering inclusivity.",
+        eventDateTime: new Date("2025-01-15T17:00:00.000Z"),
+        location: "Empowerment Hall, Chicago",
+        organizerID: john._id,
+        capacity: 250,
+        ticketPricing: 20,
+        registrationDeadline: new Date("2025-01-10T23:59:59.000Z"),
+        categories: ["Networking"],
+      },
+      {
+        title: "Open Source Hackathon",
+        description: "Collaborate on open-source projects.",
+        eventDateTime: new Date("2025-01-20T12:00:00.000Z"),
+        location: "Code Center, Denver",
+        organizerID: ibrahim._id,
+        capacity: 150,
+        ticketPricing: 0,
+        registrationDeadline: new Date("2025-01-15T23:59:59.000Z"),
+        categories: ["Technology", "Networking"],
+      },
+      {
+        title: "Future of Tech Careers",
+        description: "Preparing for opportunities in the tech industry.",
+        eventDateTime: new Date("2025-01-25T15:00:00.000Z"),
+        location: "Career Hub, San Francisco",
+        organizerID: john._id,
+        capacity: 400,
+        ticketPricing: 30,
+        registrationDeadline: new Date("2025-01-20T23:59:59.000Z"),
+        categories: ["Technology"],
+      },
+      {
+        title: "Tech Innovators Meetup 2",
+        description: "Discuss the latest trends in tech innovation.",
+        eventDateTime: new Date("2024-12-10T10:00:00.000Z"),
+        location: "Innovation Hub, San Francisco",
+        organizerID: ibrahim._id,
+        capacity: 200,
+        ticketPricing: 30,
+        registrationDeadline: new Date("2024-12-01T23:59:59.000Z"),
+        categories: ["Technology", "Networking"],
+      },
+      {
+        title: "AI Future Summit 2",
+        description: "Exploring the future of AI and its implications.",
+        eventDateTime: new Date("2024-12-15T09:00:00.000Z"),
+        location: "Tech Plaza, Austin",
+        organizerID: john._id,
+        capacity: 150,
+        ticketPricing: 50,
+        registrationDeadline: new Date("2024-12-05T23:59:59.000Z"),
+        categories: ["Technology"],
+      },
+      {
+        title: "Cloud Workshop 2",
+        description: "Learn how to build scalable cloud applications.",
+        eventDateTime: new Date("2024-12-20T14:00:00.000Z"),
+        location: "Cloud Center, Seattle",
+        organizerID: ibrahim._id,
+        capacity: 80,
+        ticketPricing: 100,
+        registrationDeadline: new Date("2024-12-10T23:59:59.000Z"),
+        categories: ["Technology"],
+      },
+      {
+        title: "Cybersecurity Awareness Day 2",
+        description: "Enhancing knowledge about cyber safety.",
+        eventDateTime: new Date("2024-12-25T11:00:00.000Z"),
+        location: "Tech Hall, New York",
+        organizerID: john._id,
+        capacity: 300,
+        ticketPricing: 0,
+        registrationDeadline: new Date("2024-12-20T23:59:59.000Z"),
+        categories: ["Technology"],
+      },
+      {
+        title: "Startup Founders Gathering 2",
+        description: "Networking with aspiring and successful founders.",
+        eventDateTime: new Date("2024-12-30T10:30:00.000Z"),
+        location: "Venture Center, Boston",
+        organizerID: ibrahim._id,
+        capacity: 120,
+        ticketPricing: 25,
+        registrationDeadline: new Date("2024-12-20T23:59:59.000Z"),
+        categories: ["Networking"],
+      },
+      {
+        title: "JavaScript Developers Workshop 2",
+        description: "Hands-on workshop for JavaScript enthusiasts.",
+        eventDateTime: new Date("2025-01-05T13:00:00.000Z"),
+        location: "Dev Hub, Los Angeles",
+        organizerID: john._id,
+        capacity: 100,
+        ticketPricing: 40,
+        registrationDeadline: new Date("2024-12-25T23:59:59.000Z"),
+        categories: ["Technology", "Networking"],
+      },
+      {
+        title: "SaaS Growth Hacking 2",
+        description: "Strategies to grow SaaS businesses effectively.",
+        eventDateTime: new Date("2025-01-10T08:00:00.000Z"),
+        location: "Growth Lab, Austin",
+        organizerID: ibrahim._id,
+        capacity: 100,
+        ticketPricing: 70,
+        registrationDeadline: new Date("2025-01-01T23:59:59.000Z"),
+        categories: ["Technology"],
+      },
+      {
+        title: "Women in Tech Conference 2",
+        description: "Highlighting achievements and fostering inclusivity.",
+        eventDateTime: new Date("2025-01-15T17:00:00.000Z"),
+        location: "Empowerment Hall, Chicago",
+        organizerID: john._id,
+        capacity: 250,
+        ticketPricing: 20,
+        registrationDeadline: new Date("2025-01-10T23:59:59.000Z"),
+        categories: ["Networking"],
+      },
+      {
+        title: "Open Source Hackathon 2",
+        description: "Collaborate on open-source projects.",
+        eventDateTime: new Date("2025-01-20T12:00:00.000Z"),
+        location: "Code Center, Denver",
+        organizerID: ibrahim._id,
+        capacity: 150,
+        ticketPricing: 0,
+        registrationDeadline: new Date("2025-01-15T23:59:59.000Z"),
+        categories: ["Technology", "Networking"],
+      },
+      {
+        title: "Future of Tech Careers 2",
+        description: "Preparing for opportunities in the tech industry.",
+        eventDateTime: new Date("2025-01-25T15:00:00.000Z"),
+        location: "Career Hub, San Francisco",
+        organizerID: john._id,
+        capacity: 400,
+        ticketPricing: 30,
+        registrationDeadline: new Date("2025-01-20T23:59:59.000Z"),
+        categories: ["Technology"],
       },
     ]
 
@@ -114,34 +290,78 @@ const seedDatabase = async () => {
     logger.info("Seeded Events:")
     logger.info(events)
 
-    const techMeetup = events.find((event) => event.title === "Tech Meetup")
-    const startupPitchNight = events.find(
-      (event) => event.title === "Startup Pitch Night"
-    )
-    const aiWorkshop = events.find((event) => event.title === "AI Workshop")
-
     const rsvpsData = [
       {
         userID: jane._id,
-        eventID: techMeetup._id,
+        eventID: events.find(
+          (event) => event.title === "Tech Innovators Meetup"
+        )._id,
         RSVP_Status: "yes",
         attendeesCount: 2,
       },
       {
         userID: alice._id,
-        eventID: techMeetup._id,
+        eventID: events.find((event) => event.title === "AI Future Summit")._id,
         RSVP_Status: "yes",
+        attendeesCount: 1,
       },
       {
         userID: jane._id,
-        eventID: aiWorkshop._id,
+        eventID: events.find((event) => event.title === "Cloud Workshop")._id,
         RSVP_Status: "yes",
         attendeesCount: 1,
       },
       {
         userID: alice._id,
-        eventID: startupPitchNight._id,
+        eventID: events.find(
+          (event) => event.title === "Cybersecurity Awareness Day"
+        )._id,
         RSVP_Status: "maybe",
+        attendeesCount: 1,
+      },
+      {
+        userID: jane._id,
+        eventID: events.find(
+          (event) => event.title === "Startup Founders Gathering"
+        )._id,
+        RSVP_Status: "yes",
+        attendeesCount: 3,
+      },
+      {
+        userID: alice._id,
+        eventID: events.find(
+          (event) => event.title === "JavaScript Developers Workshop"
+        )._id,
+        RSVP_Status: "yes",
+        attendeesCount: 2,
+      },
+      {
+        userID: jane._id,
+        eventID: events.find((event) => event.title === "SaaS Growth Hacking")
+          ._id,
+        RSVP_Status: "no",
+      },
+      {
+        userID: alice._id,
+        eventID: events.find(
+          (event) => event.title === "Women in Tech Conference"
+        )._id,
+        RSVP_Status: "yes",
+        attendeesCount: 4,
+      },
+      {
+        userID: jane._id,
+        eventID: events.find((event) => event.title === "Open Source Hackathon")
+          ._id,
+        RSVP_Status: "yes",
+        attendeesCount: 5,
+      },
+      {
+        userID: alice._id,
+        eventID: events.find(
+          (event) => event.title === "Future of Tech Careers"
+        )._id,
+        RSVP_Status: "yes",
         attendeesCount: 1,
       },
     ]
@@ -154,7 +374,7 @@ const seedDatabase = async () => {
     }
     logger.info("Seeded RSVPs:")
     logger.info(rsvps)
-    
+
     logger.info("Database seeded successfully")
     process.exit()
   } catch (err) {
