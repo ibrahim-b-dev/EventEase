@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
 import Button from "../../components/Button"
-import { getPopularEvents } from "../../services/popular"
-import eventBackground from "../../assets/hero3.webp"
 import {
   EventsContainer,
   TitleContainer,
@@ -12,36 +10,12 @@ import {
   Name,
   Description,
 } from "./PopularEvents.styled"
+import { getPopularEvents } from "../../services/popular"
+import eventBackground from "../../assets/hero3.webp"
+import { useNavigate } from "react-router-dom"
 
 const PopularEvents = () => {
-  const events = [
-    {
-      id: 1,
-      name: "Festivals and Concerts",
-      description: "Music festivals, concerts, and live performances",
-    },
-    {
-      id: 2,
-      name: "Sports and Marathons",
-      description: "Marathons, football games, and other sports events",
-    },
-    {
-      id: 3,
-      name: "Art and Exhibitions",
-      description: "Art galleries, exhibitions, and creative workshops",
-    },
-    {
-      id: 4,
-      name: "Tech and Conferences",
-      description: "Technology meetups, conferences, and hackathons",
-    },
-    {
-      id: 5,
-      name: "Food and Markets",
-      description: "Food festivals, farmers' markets, and culinary events",
-    },
-  ]
-
+  const navigate = useNavigate()
   const [popular, setPopular] = useState([])
   const [error, setError] = useState(null)
 
@@ -62,7 +36,10 @@ const PopularEvents = () => {
     <EventsContainer>
       <TitleContainer>
         <Title>Popular events</Title>
-        <Button label="view all popular categories" />
+        <Button
+          label="view all popular categories"
+          onClick={() => navigate("events")}
+        />
       </TitleContainer>
 
       <CardContainer>
