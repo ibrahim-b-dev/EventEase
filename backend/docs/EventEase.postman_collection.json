@@ -22,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"123456\",\n  \"phone\": \"+123456789\"\n}"
+							"raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"testuser2@example.com\",\n  \"password\": \"123456\",\n  \"phone\": \"+123456789\"\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/auth/register",
@@ -91,7 +91,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"123456\"\n}"
+							"raw": "{\n  \"email\": \"testuser2@example.com\",\n  \"password\": \"123456\"\n}"
 						},
 						"url": {
 							"raw": "{{URL}}/auth/login",
@@ -156,7 +156,7 @@
 							"script": {
 								"exec": [
 									"const response = pm.response.json();",
-									"pm.environment.set(\"ADMIN\", response.token);",
+									"pm.environment.set(\"ADMIN_TOKEN\", response.token);",
 									"console.log(\"Token set to environment:\", response.token)"
 								],
 								"type": "text/javascript"
@@ -378,6 +378,58 @@
 					"response": []
 				},
 				{
+					"name": "Get popular Events (No Auth required !)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/public/popular-events?sortBy=popularity&order=desc",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"public",
+								"popular-events"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "popularity"
+								},
+								{
+									"key": "order",
+									"value": "desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Events Metadata(No Auth required !)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/public/popular-events-metadata",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"public",
+								"popular-events-metadata"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get Event",
 					"request": {
 						"method": "GET",
@@ -401,13 +453,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/events/67445e7e8a79291a65a8bf91/rsvps",
+							"raw": "{{URL}}/events/6744da6d03ed2735f530deda/rsvps",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"events",
-								"67445e7e8a79291a65a8bf91",
+								"6744da6d03ed2735f530deda",
 								"rsvps"
 							]
 						}
@@ -491,7 +543,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"eventID\": \"6744abcec8225051fa24a008\",\n    \"RSVP_Status\": \"yes\",\n    \"attendeesCount\": 5\n}\n",
+							"raw": "{\n    \"eventID\": \"6744da6d03ed2735f530deda\",\n    \"RSVP_Status\": \"yes\",\n    \"attendeesCount\": 5\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -613,14 +665,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{URL}}/admin/users/6744abcec8225051fa24a003",
+									"raw": "{{URL}}/admin/users/6745706c6933e94e9a4b46bc",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"admin",
 										"users",
-										"6744abcec8225051fa24a003"
+										"6745706c6933e94e9a4b46bc"
 									]
 								}
 							},
@@ -651,7 +703,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Ibrahim Dev\",\n    \"email\": \"ibrahim@example.com\",\n    \"role\": \"Organizer\",\n    \"phone\": \"+1234567890\",\n    \"isActive\": false\n}",
+									"raw": "{\n    \"name\": \"Test User\",\n    \"email\": \"testuser2@example.com\",\n    \"role\": \"User\",\n    \"phone\": \"+12345678989\",\n    \"isActive\": true\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -659,14 +711,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{URL}}/admin/users/6744abcec8225051fa24a003",
+									"raw": "{{URL}}/admin/users/6745706c6933e94e9a4b46bc",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"admin",
 										"users",
-										"6744abcec8225051fa24a003"
+										"6745706c6933e94e9a4b46bc"
 									]
 								}
 							},
@@ -758,14 +810,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{URL}}/admin/events/",
+									"raw": "{{URL}}/admin/events/67455bf13a0f5c88d6777a24",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"admin",
 										"events",
-										""
+										"67455bf13a0f5c88d6777a24"
 									]
 								}
 							},
@@ -777,21 +829,15 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{URL}}/admin/events/:id/rsvps",
+									"raw": "{{URL}}/admin/events/67455bf13a0f5c88d6777a24/rsvps",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"admin",
 										"events",
-										":id",
+										"67455bf13a0f5c88d6777a24",
 										"rsvps"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": ""
-										}
 									]
 								}
 							},
@@ -820,15 +866,24 @@
 							"request": {
 								"method": "PUT",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Tech Meetup\",\n    \"description\": \"A meetup for tech enthusiasts.\",\n    \"eventDateTime\": \"2024-12-10T10:00:00.000Z\",\n    \"location\": \"City Hall\",\n    \"capacity\": 100,\n    \"ticketPricing\": 50,\n    \"registrationDeadline\": \"2024-12-01T23:59:59.000Z\",\n    \"categories\": [\n        \"Technology\",\n        \"Networking\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{URL}}/admin/events/",
+									"raw": "{{URL}}/admin/events/67455bf13a0f5c88d6777a24",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"admin",
 										"events",
-										""
+										"67455bf13a0f5c88d6777a24"
 									]
 								}
 							},
@@ -895,7 +950,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Test User\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"123456\",\n  \"phone\": \"+123456789\"\n}",
+									"raw": "{\n    \"eventID\": \"67455bf13a0f5c88d6777a24\",\n    \"RSVP_Status\": \"yes\",\n    \"attendeesCount\": 5\n}\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -921,14 +976,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{URL}}/admin/rsvp/",
+									"raw": "{{URL}}/admin/rsvp",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"admin",
-										"rsvp",
-										""
+										"rsvp"
 									]
 								}
 							},
@@ -940,14 +994,14 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{URL}}/admin/rsvp/",
+									"raw": "{{URL}}/admin/rsvp/67455bf23a0f5c88d6777a3f",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"admin",
 										"rsvp",
-										""
+										"67455bf23a0f5c88d6777a3f"
 									]
 								}
 							},
