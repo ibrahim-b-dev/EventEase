@@ -16,6 +16,7 @@ const app = express()
 connectToDataBase()
 
 app.get("/", (request, response) => {
+  // TODO: Serve the static frontend application files
   response.send("hello world")
 })
 
