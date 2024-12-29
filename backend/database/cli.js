@@ -10,7 +10,6 @@ const RSVP = require("../models/rsvp")
 const args = process.argv.slice(2)
 
 const connectDB = async () => {
-  // const URI = config.LOCAL_MONGODB_URI
   const URI = config.MONGODB_URI
   const clientOptions = {
     serverApi: { version: "1", strict: true, deprecationErrors: true },
