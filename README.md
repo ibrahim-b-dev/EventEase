@@ -112,7 +112,7 @@ EventEase exposes a well-documented RESTful API. The key endpoints are as follow
 - **POST /rsvps:** Create a new RSVP.
 - **DELETE /rsvps/:id:** Delete an RSVP.
 
-For full API documentation, visit: [Full API Docs](https://github.com/ibrahim-b-dev/EventEase/tree/main/backend/docs)
+For full API documentation, visit: [Full API Docs](https://eventease-s37i.onrender.com/api-docs)
 
 🤝 **Contributing**
 We welcome contributions! If you'd like to improve EventEase, please follow these steps:
